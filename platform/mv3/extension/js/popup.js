@@ -295,6 +295,187 @@ dom.on('#gotoUnpicker', 'click', ( ) => {
 
 /******************************************************************************/
 
+function renderTwitchShield() {
+    const state = popupPanelData.zublockTwitchShield || {};
+    const tool = qs$('#toggleTwitchShield');
+    if ( tool === null ) { return; }
+    dom.cl.toggle(tool, 'enabled', state.available !== false);
+    dom.cl.toggle(tool, 'on', state.enabled === true);
+    tool.title = i18n$(state.enabled ? 'popupTwitchShieldOn' : 'popupTwitchShieldOff');
+}
+
+/******************************************************************************/
+
+function renderPageTranslator() {
+    const state = popupPanelData.pageTranslator || {};
+    const tool = qs$('#togglePageTranslator');
+    if ( tool !== null ) {
+        dom.cl.toggle(tool, 'on', state.enabled === true);
+        tool.title = i18n$(state.enabled
+            ? 'popupTranslatorTipOn'
+            : 'popupTranslatorTipOff'
+        );
+    }
+
+    const language = qs$('#pageTranslatorLanguage');
+    if ( language !== null ) {
+        language.value = state.targetLanguage === 'en' ? 'en' : 'pt';
+    }
+
+    const save = qs$('#savePageTranslations input');
+    if ( save !== null ) {
+        save.checked = state.saveTranslations === true;
+    }
+
+    dom.text('#pageTranslatorStatus', i18n$(state.enabled
+        ? 'popupTranslatorStatusOn'
+        : 'popupTranslatorStatusOff'
+    ));
+}
+
+async function patchPageTranslator(patch) {
+    dom.cl.add(dom.body, 'busy');
+    try {
+        const after = await sendMessage({
+            what: 'setPageTranslatorConfig',
+            patch,
+        });
+        if ( after instanceof Object ) {
+            popupPanelData.pageTranslator = after;
+        }
+        renderPageTranslator();
+    } finally {
+        dom.cl.remove(dom.body, 'busy');
+    }
+}
+
+/******************************************************************************/
+
+function toPrettySelector(selector) {
+    if ( typeof selector !== 'string' ) { return ''; }
+    if ( selector.startsWith('{') === false ) { return selector; }
+    try {
+        return JSON.parse(selector).raw || selector;
+    } catch {
+    }
+    return selector;
+}
+
+function renderSavedEdits() {
+    const count = popupPanelData.savedEditCount || 0;
+    dom.text('#popupSavedEditsCount', count.toLocaleString());
+
+    const toggle = qs$('#toggleSavedEdits input');
+    if ( toggle !== null ) {
+        toggle.checked = popupPanelData.savedEditsEnabled !== false;
+        toggle.disabled = count === 0;
+    }
+
+    const list = qs$('#popupSavedEditsList');
+    if ( list !== null ) {
+        dom.clear(list);
+        const samples = popupPanelData.savedEditSamples || [];
+        if ( samples.length === 0 ) {
+            const li = document.createElement('li');
+            li.textContent = i18n$('popupSavedEditsEmpty');
+            list.append(li);
+        } else {
+            for ( const selector of samples ) {
+                const li = document.createElement('li');
+                li.textContent = toPrettySelector(selector);
+                list.append(li);
+            }
+        }
+    }
+
+    dom.cl.toggle('#gotoUnpicker', 'enabled', count !== 0);
+}
+
+dom.on('#toggleSavedEdits input', 'change', async ev => {
+    if ( ev.isTrusted !== true ) { return; }
+    if ( tabURL.hostname === '' ) { return; }
+    dom.cl.add(dom.body, 'busy');
+    try {
+        await sendMessage({
+            what: 'setCustomFiltersEnabled',
+            hostname: tabURL.hostname,
+            enabled: ev.target.checked === true,
+        });
+        popupPanelData.savedEditsEnabled = ev.target.checked === true;
+        renderSavedEdits();
+    } finally {
+        dom.cl.remove(dom.body, 'busy');
+    }
+});
+
+dom.on('#openSavedEdits', 'click', async ev => {
+    if ( ev.isTrusted !== true ) { return; }
+    if ( ev.button !== 0 ) { return; }
+    await browser.storage.local.set({ 'dashboard.activePane': 'filters' });
+    runtime.openOptionsPage();
+});
+
+/******************************************************************************/
+
+dom.on('.openBraveClean', 'click', async ev => {
+    if ( ev.isTrusted !== true ) { return; }
+    if ( ev.button !== 0 ) { return; }
+    const url = ev.currentTarget?.dataset?.url;
+    if ( typeof url !== 'string' || url === '' ) { return; }
+    try {
+        await browser.tabs.create({ active: true, url });
+        self.close();
+    } catch {
+        try {
+            self.open(url, '_blank', 'noopener');
+            self.close();
+        } catch {
+        }
+    }
+});
+
+/******************************************************************************/
+
+dom.on('#togglePageTranslator', 'click', ev => {
+    if ( ev.isTrusted !== true ) { return; }
+    if ( ev.button !== 0 ) { return; }
+    const before = popupPanelData.pageTranslator || {};
+    patchPageTranslator({ enabled: before.enabled !== true });
+});
+
+dom.on('#pageTranslatorLanguage', 'change', ev => {
+    if ( ev.isTrusted !== true ) { return; }
+    const targetLanguage = ev.target.value === 'en' ? 'en' : 'pt';
+    patchPageTranslator({ targetLanguage });
+});
+
+dom.on('#savePageTranslations input', 'change', ev => {
+    if ( ev.isTrusted !== true ) { return; }
+    patchPageTranslator({ saveTranslations: ev.target.checked === true });
+});
+
+/******************************************************************************/
+
+dom.on('#toggleTwitchShield', 'click', async ev => {
+    if ( ev.isTrusted !== true ) { return; }
+    const before = popupPanelData.zublockTwitchShield || {};
+    dom.cl.add(dom.body, 'busy');
+    try {
+        const after = await sendMessage({
+            what: 'setZublockTwitchShield',
+            enabled: before.enabled !== true,
+        });
+        if ( after instanceof Object ) {
+            popupPanelData.zublockTwitchShield = after;
+        }
+        renderTwitchShield();
+    } finally {
+        dom.cl.remove(dom.body, 'busy');
+    }
+});
+
+/******************************************************************************/
+
 async function init() {
     const [ tab ] = await browser.tabs.query({
         active: true,
@@ -330,7 +511,11 @@ async function init() {
 
     setFilteringMode(popupPanelData.level);
 
-    dom.text('#hostname', punycode.toUnicode(tabURL.hostname));
+    const hostnameText =
+        tabURL.protocol === 'chrome-extension:' && tabURL.hostname === runtime.id
+            ? i18n$('extName')
+            : punycode.toUnicode(tabURL.hostname);
+    dom.text('#hostname', hostnameText);
 
     dom.cl.toggle('#gotoMatchedRules', 'enabled',
         popupPanelData.isSideloaded === true &&
@@ -343,6 +528,9 @@ async function init() {
     dom.cl.toggle(dom.root, 'isHTTP', isHTTP);
 
     dom.cl.toggle('#gotoUnpicker', 'enabled', popupPanelData.hasCustomFilters);
+    renderTwitchShield();
+    renderPageTranslator();
+    renderSavedEdits();
 
     return true;
 }

@@ -11,7 +11,8 @@
     transform: translateY(-50%);
 }
 
-#ubol-zapper aside > div {
+#ubol-zapper aside > div,
+#ubol-zapper #zapperSave {
     background-color: var(--surface-1);
     border: 1px solid rgba(0,0,0,0.5);
     box-sizing: border-box;
@@ -26,4 +27,47 @@
 }
 :root:not(.mobile) #pick {
     display: none;
+}
+
+#ubol-zapper #zapperSave {
+    align-items: stretch;
+    color: var(--ink-2);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35em;
+    height: auto;
+    min-width: 11em;
+    padding: 0.55em;
+    stroke-width: 2px;
+    width: auto;
+}
+#ubol-zapper #saveZap {
+    align-items: center;
+    background-color: #7c3aed;
+    border: 0;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    fill: none;
+    gap: 0.45em;
+    justify-content: center;
+    min-height: 2.6em;
+    padding: 0 0.75em;
+    stroke: currentColor;
+}
+#ubol-zapper #saveZap:disabled {
+    background-color: var(--surface-2);
+    color: var(--ink-3);
+    cursor: default;
+}
+#ubol-zapper #saveZap svg {
+    height: 1.35em;
+    min-width: 1.35em;
+    width: 1.35em;
+}
+#ubol-zapper #zapStatus {
+    font-size: 0.86em;
+    line-height: 1.25;
+    text-align: center;
 }

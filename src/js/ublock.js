@@ -436,11 +436,13 @@ const matchBucket = function(url, hostname, bucket, start) {
     frameId,
     targetElement,
     zap = false,
+    persist = false,
 ) {
     if ( vAPI.isBehindTheSceneTabId(tabId) ) { return; }
 
     this.epickerArgs.target = targetElement || '';
     this.epickerArgs.zap = zap;
+    this.epickerArgs.persist = persist;
 
     // https://github.com/uBlockOrigin/uBlock-issues/issues/40
     //   The element picker needs this library

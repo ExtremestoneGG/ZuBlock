@@ -53,6 +53,7 @@ import staticNetFilteringEngine from './static-net-filtering.js';
 import { ubolog } from './console.js';
 import webRequest from './traffic.js';
 import µb from './background.js';
+import { initTwitchShield } from './zublock-twitch.js';
 
 /******************************************************************************/
 
@@ -77,6 +78,8 @@ vAPI.app.onShutdown = ( ) => {
 vAPI.alarms.onAlarm.addListener(alarm => {
     µb.alarmQueue.push(alarm.name);
 });
+
+initTwitchShield();
 
 /******************************************************************************/
 

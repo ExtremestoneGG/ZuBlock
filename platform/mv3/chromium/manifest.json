@@ -7,7 +7,7 @@
     },
     "default_popup": "popup.html"
   },
-  "author": "Raymond Hill",
+  "author": "Raymond Hill; ZuBlock contributors",
   "background": {
       "service_worker": "/js/background.js",
       "type": "module"
@@ -20,6 +20,19 @@
       "description": "__MSG_pickerTipEnter__"
     }
   },
+  "content_scripts": [
+    {
+      "all_frames": false,
+      "js": [
+        "/js/scripting/page-translator.js"
+      ],
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
   "declarative_net_request": {
     "rule_resources": [
     ]
@@ -45,12 +58,14 @@
     "alarms",
     "declarativeNetRequest",
     "offscreen",
+    "proxy",
     "scripting",
     "storage",
+    "tabs",
     "unlimitedStorage",
     "userScripts"
   ],
-  "short_name": "uBO Lite",
+  "short_name": "ZuBlock",
   "storage": {
     "managed_schema": "managed_storage.json"
   },

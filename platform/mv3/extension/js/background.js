@@ -37,11 +37,13 @@ import {
     addCustomFilters,
     customFiltersFromHostname,
     getAllCustomFilters,
+    getDisabledCustomFilters,
     getSandboxFilters,
     hasCustomFilters,
     injectCustomFilters,
     removeAllCustomFilters,
     removeCustomFilters,
+    setCustomFiltersEnabled,
     setSandboxFilters,
     startCustomFilters,
     terminateCustomFilters,
@@ -134,6 +136,18 @@ import { dnr } from './ext-compat.js';
 import { setPopupBlockMode } from './prevent-popup.js';
 import { supportsOffscreenDocument } from './ext-offscreen.js';
 import { toggleToolbarIcon } from './action.js';
+import {
+    getZublockTwitchShieldState,
+    initZublockTwitchShield,
+    setZublockTwitchShieldEnabled,
+} from './zublock-twitch-shield.js';
+
+import {
+    broadcastPageTranslatorConfig,
+    getPageTranslatorConfig,
+    setPageTranslatorConfig,
+    translatePageTexts,
+} from './page-translator-service.js';
 
 /******************************************************************************/
 
@@ -343,6 +357,16 @@ async function onMessage(request, sender) {
         if ( frameId === false ) { return; }
         return injectCustomFilters(tabId, frameId, request.hostname);
 
+    case 'getPageTranslatorConfig':
+        return getPageTranslatorConfig();
+
+    case 'translatePageTexts':
+        return translatePageTexts(
+            request.texts,
+            request.targetLanguage,
+            request.saveTranslations === true
+        );
+
     default:
         break;
     }
@@ -472,8 +496,13 @@ async function onMessage(request, sender) {
             hasBroadHostPermissions(),
             getFilteringMode(request.hostname),
             adminReadEx('disabledFeatures'),
-            hasCustomFilters(request.hostname),
+            hasCustomFilters(request.hostname, { includeDisabled: true }),
+            getZublockTwitchShieldState(),
+            customFiltersFromHostname(request.hostname, { includeDisabled: true }),
+            getDisabledCustomFilters(),
+            getPageTranslatorConfig(),
         ]);
+        const disabledCustomFilters = results[6];
         return {
             hasOmnipotence: results[0],
             level: results[1],
@@ -482,7 +511,21 @@ async function onMessage(request, sender) {
             developerMode: rulesetConfig.developerMode,
             disabledFeatures: results[2],
             hasCustomFilters: results[3],
+            zublockTwitchShield: results[4],
+            savedEditCount: results[5]?.length ?? 0,
+            savedEditSamples: (results[5] || []).slice(0, 3),
+            savedEditsEnabled: disabledCustomFilters.includes(request.hostname) === false,
+            pageTranslator: results[7],
         };
+    }
+
+    case 'setZublockTwitchShield':
+        return setZublockTwitchShieldEnabled(request.enabled);
+
+    case 'setPageTranslatorConfig': {
+        const config = await setPageTranslatorConfig(request.patch);
+        await broadcastPageTranslatorConfig(config);
+        return config;
     }
 
     case 'getFilteringMode': {
@@ -555,6 +598,19 @@ async function onMessage(request, sender) {
 
     case 'getAllCustomFilters':
         return getAllCustomFilters();
+
+    case 'getDisabledCustomFilters':
+        return getDisabledCustomFilters();
+
+    case 'setCustomFiltersEnabled': {
+        const modified = await setCustomFiltersEnabled(request.hostname, request.enabled);
+        if ( modified !== true ) { return; }
+        await Promise.all([
+            registerContentScripts(),
+            updateCompiledFilters().then(( ) => registerUserScripts()),
+        ]);
+        return;
+    }
 
     case 'addCustomFilters': {
         const modified = await addCustomFilters(request.hostname, request.selectors);
@@ -642,7 +698,9 @@ async function onMessage(request, sender) {
     }
 
     case 'customFiltersFromHostname':
-        return customFiltersFromHostname(request.hostname);
+        return customFiltersFromHostname(request.hostname, {
+            includeDisabled: request.includeDisabled === true,
+        });
 
     case 'getRegisteredContentScripts':
         return getRegisteredContentScripts();
@@ -828,6 +886,7 @@ async function startSession() {
 
 async function start() {
     await loadRulesetConfig();
+    await initZublockTwitchShield();
 
     if ( process.wakeupRun === false ) {
         await startSession();

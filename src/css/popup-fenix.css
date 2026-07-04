@@ -179,7 +179,7 @@ body.needSave #revertRules {
     display: grid;
     grid-auto-columns: 1fr;
     grid-auto-flow: column;
-    grid-template: auto / repeat(4, 1fr);
+    grid-template: auto / repeat(7, minmax(2.4em, 1fr));
     justify-items: center;
     margin: 0;
     white-space: normal;
@@ -190,8 +190,7 @@ body.needSave #revertRules {
     flex-direction: column;
     font-size: 1.4em;
     min-width: 32px;
-    padding: var(--popup-gap)
-             var(--popup-gap-thin);
+    padding: var(--popup-gap-thin);
     unicode-bidi: embed;
     visibility: hidden;
     }
@@ -232,6 +231,14 @@ body.needSave #revertRules {
 #extraTools > span.on .fa-icon >.nope {
     visibility: visible;
     }
+#zublock-twitch-shield.active .fa-icon-badge {
+    background-color: #a855f7;
+    border-radius: 50%;
+    height: 0.45em;
+    left: calc(100% - 0.35em);
+    top: -0.1em;
+    width: 0.45em;
+}
 
 #unprocessedRequestWarning {
     align-items: center;

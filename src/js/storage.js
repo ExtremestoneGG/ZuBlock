@@ -682,6 +682,153 @@ onBroadcast(msg => {
 
 /******************************************************************************/
 
+const zublockPauseStart = hostname =>
+    `! ZuBlock pause start: ${hostname}`;
+
+const zublockPauseEnd = hostname =>
+    `! ZuBlock pause end: ${hostname}`;
+
+const zublockIsCosmeticFilterForHostname = (line, hostname) => {
+    const s = line.trim();
+    return s.startsWith(`${hostname}##`) ||
+           s.startsWith(`${hostname}#?#`) ||
+           s.startsWith(`${hostname}#$#`) ||
+           s.startsWith(`${hostname}#$?#`);
+};
+
+const zublockSelectorFromCosmeticFilter = (line, hostname) => {
+    const s = line.trim();
+    for ( const anchor of [ '##', '#?#', '#$#', '#$?#' ] ) {
+        const prefix = `${hostname}${anchor}`;
+        if ( s.startsWith(prefix) === false ) { continue; }
+        return s.slice(prefix.length);
+    }
+    return '';
+};
+
+const zublockRemovePauseBlock = (lines, hostname) => {
+    const start = zublockPauseStart(hostname);
+    const end = zublockPauseEnd(hostname);
+    const out = [];
+    let skipping = false;
+    for ( const line of lines ) {
+        if ( line.trim() === start ) {
+            skipping = true;
+            continue;
+        }
+        if ( skipping && line.trim() === end ) {
+            skipping = false;
+            continue;
+        }
+        if ( skipping ) { continue; }
+        out.push(line);
+    }
+    return out;
+};
+
+const zublockWriteUserFilters = async text => {
+    await µb.saveUserFilters(text);
+    await µb.loadFilterLists();
+    filteringBehaviorChanged();
+    broadcast({ what: 'userFiltersUpdated' });
+};
+
+µb.zublockSiteCosmeticInfo = async function(hostname) {
+    if ( typeof hostname !== 'string' || hostname === '' ) {
+        return { count: 0, enabled: true, sites: [] };
+    }
+
+    const details = await this.loadUserFilters();
+    if ( details.error ) {
+        return { count: 0, enabled: true, sites: [] };
+    }
+
+    const lines = details.content.split(/\n/);
+    const sites = new Set();
+    let count = 0;
+    let enabled = true;
+
+    for ( const line of lines ) {
+        const match = /^([^!#\s][^#\s]*)(?:##|#\?#|#\$#|#\$\?#)/.exec(line.trim());
+        if ( match !== null ) {
+            sites.add(match[1]);
+        }
+        if ( zublockIsCosmeticFilterForHostname(line, hostname) ) {
+            count += 1;
+        }
+        if ( line.trim() === zublockPauseStart(hostname) ) {
+            enabled = false;
+        }
+    }
+
+    return {
+        count,
+        enabled,
+        sites: Array.from(sites).sort(),
+    };
+};
+
+µb.zublockToggleSiteCosmetics = async function(hostname, enabled) {
+    if ( typeof hostname !== 'string' || hostname === '' ) {
+        return this.zublockSiteCosmeticInfo(hostname);
+    }
+
+    const details = await this.loadUserFilters();
+    if ( details.error ) {
+        return this.zublockSiteCosmeticInfo(hostname);
+    }
+
+    let lines = zublockRemovePauseBlock(
+        details.content.split(/\n/),
+        hostname
+    );
+
+    if ( enabled === false ) {
+        const selectors = lines
+            .filter(line => zublockIsCosmeticFilterForHostname(line, hostname))
+            .map(line => zublockSelectorFromCosmeticFilter(line, hostname))
+            .filter(selector => selector !== '');
+        if ( selectors.length !== 0 ) {
+            lines.push(
+                '',
+                zublockPauseStart(hostname),
+                ...selectors.map(selector => `${hostname}#@#${selector}`),
+                zublockPauseEnd(hostname)
+            );
+        }
+    }
+
+    await zublockWriteUserFilters(lines.join('\n').trim());
+    cosmeticFilteringEngine.removeFromSelectorCache(hostname);
+    staticFilteringReverseLookup.resetLists();
+    return this.zublockSiteCosmeticInfo(hostname);
+};
+
+µb.zublockResetSiteCosmetics = async function(hostname) {
+    if ( typeof hostname !== 'string' || hostname === '' ) {
+        return this.zublockSiteCosmeticInfo(hostname);
+    }
+
+    const details = await this.loadUserFilters();
+    if ( details.error ) {
+        return this.zublockSiteCosmeticInfo(hostname);
+    }
+
+    const lines = zublockRemovePauseBlock(
+        details.content.split(/\n/),
+        hostname
+    ).filter(line =>
+        zublockIsCosmeticFilterForHostname(line, hostname) === false
+    );
+
+    await zublockWriteUserFilters(lines.join('\n').trim());
+    cosmeticFilteringEngine.removeFromSelectorCache(hostname);
+    staticFilteringReverseLookup.resetLists();
+    return this.zublockSiteCosmeticInfo(hostname);
+};
+
+/******************************************************************************/
+
 µb.autoSelectRegionalFilterLists = function(lists) {
     const selectedListKeys = [ this.userFiltersPath ];
     for ( const key in lists ) {

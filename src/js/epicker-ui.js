@@ -58,6 +58,9 @@ const reCosmeticAnchor = /^#(\$|\?|\$\?)?#/;
     if ( url.searchParams.has('zap') ) {
         pickerRoot.classList.add('zap');
     }
+    if ( url.searchParams.has('persist') ) {
+        pickerRoot.classList.add('persistZap');
+    }
 }
 
 const docURL = new URL(vAPI.getURL(''));

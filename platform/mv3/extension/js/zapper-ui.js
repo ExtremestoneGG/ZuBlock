@@ -20,22 +20,50 @@
 */
 
 import { dom } from './dom.js';
+import { i18n$ } from './i18n.js';
 import { toolOverlay } from './tool-overlay-ui.js';
 
 /******************************************************************************/
 
-function onSvgClicked(ev) {
+let lastZappedSelector = '';
+
+/******************************************************************************/
+
+function updateSaveState(state = 'waiting') {
+    const saveButton = document.querySelector('#saveZap');
+    const status = document.querySelector('#zapStatus');
+    if ( saveButton === null || status === null ) { return; }
+    saveButton.disabled = lastZappedSelector === '';
+    const statusId = state === 'ready'
+        ? 'zapperSaveReady'
+        : state === 'done'
+            ? 'zapperSaveDone'
+            : state === 'failed'
+                ? 'zapperSaveFailed'
+                : 'zapperSaveWaiting';
+    status.textContent = i18n$(statusId);
+}
+
+async function zapAtPoint(mx, my, options = {}) {
     // If zap mode, highlight element under mouse, this makes the zapper usable
     // on touch screens.
-    toolOverlay.postMessage({
+    const result = await toolOverlay.postMessage({
         what: 'zapElementAtPoint',
-        mx: ev.clientX,
-        my: ev.clientY,
-        options: {
-            stay: true,
-            highlight: dom.cl.has(dom.root, 'mobile') &&
-                ev.target !== toolOverlay.svgIslands,
-        },
+        mx,
+        my,
+        options,
+    });
+    if ( result?.removed === true && typeof result.selector === 'string' ) {
+        lastZappedSelector = result.selector;
+        updateSaveState('ready');
+    }
+}
+
+function onSvgClicked(ev) {
+    zapAtPoint(ev.clientX, ev.clientY, {
+        stay: true,
+        highlight: dom.cl.has(dom.root, 'mobile') &&
+            ev.target !== toolOverlay.svgIslands,
     });
 }
 
@@ -78,16 +106,38 @@ const onSvgTouch = (( ) => {
 function onKeyPressed(ev) {
     // Delete
     if ( ev.key === 'Delete' || ev.key === 'Backspace' ) {
-        toolOverlay.postMessage({
-            what: 'zapElementAtPoint',
-            options: { stay: true },
-        });
+        zapAtPoint(undefined, undefined, { stay: true });
         return;
     }
     // Esc
     if ( ev.key === 'Escape' || ev.which === 27 ) {
         quitZapper();
         return;
+    }
+}
+
+/******************************************************************************/
+
+async function onSaveClicked() {
+    if ( lastZappedSelector === '' ) { return; }
+    const selector = lastZappedSelector;
+    const saveButton = document.querySelector('#saveZap');
+    if ( saveButton !== null ) {
+        saveButton.disabled = true;
+    }
+    try {
+        await toolOverlay.sendMessage({
+            what: 'addCustomFilters',
+            hostname: toolOverlay.url.hostname,
+            selectors: [ selector ],
+        });
+        lastZappedSelector = '';
+        updateSaveState('done');
+    } catch {
+        if ( saveButton !== null ) {
+            saveButton.disabled = false;
+        }
+        updateSaveState('failed');
     }
 }
 
@@ -101,6 +151,8 @@ function startZapper() {
     dom.on('svg#overlay', 'touchend', onSvgTouch);
     dom.on('#quit', 'click', quitZapper );
     dom.on('#pick', 'click', resetZapper );
+    dom.on('#saveZap', 'click', onSaveClicked );
+    updateSaveState();
     toolOverlay.highlightElementUnderMouse(true);
 }
 
@@ -110,6 +162,8 @@ function quitZapper() {
 }
 
 function resetZapper() {
+    lastZappedSelector = '';
+    updateSaveState();
     toolOverlay.postMessage({ what: 'unhighlight' });
 }
 

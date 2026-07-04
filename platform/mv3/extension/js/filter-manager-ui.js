@@ -50,6 +50,24 @@ function isValidHostname(hostname) {
 
 /******************************************************************************/
 
+function hostnameFromInput(text) {
+    let hostname = text.trim();
+    if ( hostname === '' ) { return ''; }
+    try {
+        const url = new URL(
+            /^[\w-]+:\/\//.test(hostname)
+                ? hostname
+                : `https://${hostname}`
+        );
+        hostname = url.hostname;
+    } catch {
+        hostname = hostname.replace(/^[\w-]+:\/\//, '').split('/')[0];
+    }
+    return punycode.toASCII(hostname.toLowerCase());
+}
+
+/******************************************************************************/
+
 function toPrettySelector(selector) {
     if ( selector === '' ) { return ''; }
     if ( selector.startsWith('{') === false ) { return selector; }
@@ -140,8 +158,16 @@ function dataFromDOM() {
 /******************************************************************************/
 
 async function renderCustomFilters() {
-    const data = await sendMessage({ what: 'getAllCustomFilters' });
+    const [ data, disabledData ] = await Promise.all([
+        sendMessage({ what: 'getAllCustomFilters' }),
+        sendMessage({ what: 'getDisabledCustomFilters' }),
+    ]);
     if ( Boolean(data) === false ) { return; }
+    const disabledHostnames = new Set(disabledData || []);
+    const emptyNotice = qs$('#savedEditsEmpty');
+    if ( emptyNotice !== null ) {
+        emptyNotice.hidden = data.length !== 0;
+    }
     const nodeFromHostname = hostname => {
         const hostnameNode = nodeFromTemplate('customFiltersHostname');
         hostnameNode.dataset.ugly = hostname;
@@ -149,6 +175,12 @@ async function renderCustomFilters() {
         hostnameNode.dataset.pretty = pretty;
         const label = qs$(hostnameNode, 'span.hostname');
         dom.text(label, pretty);
+        const enabledInput = qs$(hostnameNode, '.savedEditEnabled input');
+        if ( enabledInput !== null ) {
+            const isDisabled = disabledHostnames.has(hostname);
+            enabledInput.checked = isDisabled === false;
+            dom.cl.toggle(hostnameNode, 'disabled', isDisabled);
+        }
         return hostnameNode;
     };
     const nodeFromSelector = selector => {
@@ -200,8 +232,6 @@ async function renderCustomFilters() {
         ulSelectors.append(selectorNode);
         fragment.append(hostnameNode);
     }
-    const hostnameNode = nodeFromHostname('');
-    fragment.append(hostnameNode);
     dom.remove('section[data-pane="filters"] .hostnames > .hostname');
     dataContainer.prepend(fragment);
 }
@@ -263,6 +293,66 @@ async function validateSelector(target, selector) {
     }
     if ( Boolean(pretty) === false ) { return {}; }
     return { pretty, ugly };
+}
+
+/******************************************************************************/
+
+async function addSavedEditFromInputs() {
+    const hostnameInput = qs$('#savedEditHostname');
+    const selectorInput = qs$('#savedEditSelector');
+    if ( hostnameInput === null || selectorInput === null ) { return; }
+
+    dom.cl.remove([ hostnameInput, selectorInput ], 'error');
+
+    const hostname = hostnameFromInput(hostnameInput.value);
+    if ( isValidHostname(hostname) === false ) {
+        dom.cl.add(hostnameInput, 'error');
+        hostnameInput.focus();
+        return;
+    }
+
+    const selectorText = selectorInput.value.trim();
+    const { ugly } = await validateSelector(selectorInput, selectorText);
+    if ( Boolean(ugly) === false ) {
+        dom.cl.add(selectorInput, 'error');
+        selectorInput.focus();
+        return;
+    }
+
+    dom.cl.add(dom.body, 'committing');
+    updateContentEditability(false);
+    await sendMessage({
+        what: 'addCustomFilters',
+        hostname,
+        selectors: [ ugly ],
+    });
+    hostnameInput.value = punycode.toUnicode(hostname);
+    selectorInput.value = '';
+    await debounceRenderCustomFilters();
+    updateContentEditability(true);
+    dom.cl.remove(dom.body, 'committing');
+}
+
+async function onEnabledChanged(ev) {
+    const hostnameNode = ev.target.closest('li.hostname[data-ugly]');
+    if ( hostnameNode === null ) { return; }
+    const hostname = hostnameFromNode(hostnameNode);
+    if ( hostname === undefined || hostname === '' ) { return; }
+    const enabled = ev.target.checked === true;
+    dom.cl.add(dom.body, 'committing');
+    await sendMessage({
+        what: 'setCustomFiltersEnabled',
+        hostname,
+        enabled,
+    });
+    dom.cl.toggle(hostnameNode, 'disabled', enabled === false);
+    dom.cl.remove(dom.body, 'committing');
+}
+
+function onQuickAddKeydown(ev) {
+    if ( ev.key !== 'Enter' ) { return; }
+    ev.preventDefault();
+    addSavedEditFromInputs();
 }
 
 /******************************************************************************/
@@ -622,14 +712,19 @@ async function start() {
     dom.on(dataContainer, 'click', 'section[data-pane="filters"] .copy', onCopyClicked);
     dom.on(dataContainer, 'click', 'section[data-pane="filters"] .remove', onTrashClicked);
     dom.on(dataContainer, 'click', 'section[data-pane="filters"] .undo', onUndoClicked);
+    dom.on(dataContainer, 'change', '.savedEditEnabled input', onEnabledChanged);
     dom.on('section[data-pane="filters"] [data-i18n="addButton"]', 'click', importFromTextarea);
     dom.on('section[data-pane="filters"] [data-i18n="importAndAppendButton"]', 'click', importFromFile);
     dom.on('section[data-pane="filters"] [data-i18n="exportButton"]', 'click', exportToFile);
+    dom.on('#savedEditAdd', 'click', addSavedEditFromInputs);
+    dom.on('.savedEditsQuickAdd input', 'keydown', onQuickAddKeydown);
 
     browser.storage.local.onChanged.addListener((changes, area) => {
         if ( dom.cl.has(dom.body, 'committing') ) { return; }
         if ( area !== undefined && area !== 'local' ) { return; }
-        if ( Object.keys(changes).some(a => a.startsWith('site.')) ) {
+        if ( Object.keys(changes).some(a =>
+            a.startsWith('site.') || a === 'zublock.disabledCustomFilters'
+        ) ) {
             debounceRenderCustomFilters();
         }
     });

@@ -585,6 +585,24 @@ const updateHnSwitches = function() {
 
 /******************************************************************************/
 
+const updateZublockControls = function() {
+    const twitch = popupData.zublockTwitchShield || {};
+    dom.cl.toggle('#zublock-twitch-shield', 'on', twitch.enabled !== true);
+    dom.cl.toggle('#zublock-twitch-shield', 'active', twitch.active === true);
+    dom.cl.toggle('#zublock-twitch-shield', 'enabled', twitch.available === true);
+
+    const siteCosmetics = popupData.zublockSiteCosmetics || {};
+    dom.cl.toggle('#zublock-site-cosmetics', 'on', siteCosmetics.enabled === false);
+    dom.cl.toggle('#zublock-site-cosmetics', 'enabled', (siteCosmetics.count || 0) !== 0);
+    dom.cl.toggle('#resetSiteCosmetics', 'canPick',
+        popupData.canElementPicker &&
+        popupData.netFilteringSwitch &&
+        (siteCosmetics.count || 0) !== 0
+    );
+};
+
+/******************************************************************************/
+
 // Assume everything has to be done incrementally.
 
 const renderPopup = function() {
@@ -617,6 +635,9 @@ const renderPopup = function() {
     const canPick = popupData.canElementPicker && isFiltering;
 
     dom.cl.toggle('#gotoZap', 'canPick', canPick);
+    dom.cl.toggle('#gotoZapPermanent', 'canPick',
+        canPick && popupData.userFiltersAreEnabled
+    );
     dom.cl.toggle('#gotoPick', 'canPick', canPick && popupData.userFiltersAreEnabled);
     dom.cl.toggle('#gotoReport', 'canPick', canPick);
 
@@ -653,6 +674,7 @@ const renderPopup = function() {
 
     // Extra tools
     updateHnSwitches();
+    updateZublockControls();
 
     // Report popup count on badge
     total = popupData.popupBlockedCount;
@@ -762,6 +784,20 @@ const tooltipTargetSelectors = new Map([
         {
             state: '#no-scripting.on',
             i18n: 'popupTipNoScripting'
+        }
+    ],
+    [
+        '#zublock-twitch-shield',
+        {
+            state: '#zublock-twitch-shield.on',
+            i18n: 'popupTipZuTwitchShield'
+        }
+    ],
+    [
+        '#zublock-site-cosmetics',
+        {
+            state: '#zublock-site-cosmetics.on',
+            i18n: 'popupTipZuSiteFixes'
         }
     ],
 ]);
@@ -895,6 +931,19 @@ const gotoZap = function() {
 
 /******************************************************************************/
 
+const gotoZapPermanent = function() {
+    messaging.send('popupPanel', {
+        what: 'launchElementPicker',
+        tabId: popupData.tabId,
+        zap: true,
+        persist: true,
+    });
+
+    vAPI.closePopup();
+};
+
+/******************************************************************************/
+
 const gotoPick = function() {
     messaging.send('popupPanel', {
         what: 'launchElementPicker',
@@ -902,6 +951,55 @@ const gotoPick = function() {
     });
 
     vAPI.closePopup();
+};
+
+/******************************************************************************/
+
+const resetSiteCosmetics = async function() {
+    if ( !popupData.pageHostname ) { return; }
+    const response = await messaging.send('popupPanel', {
+        what: 'resetZublockSiteCosmetics',
+        hostname: popupData.pageHostname,
+        tabId: popupData.tabId,
+    });
+    cachePopupData(response);
+    renderPopup();
+    reloadTab(true);
+};
+
+/******************************************************************************/
+
+const toggleSiteCosmetics = async function() {
+    if ( !popupData.pageHostname ) { return; }
+    const target = qs$('#zublock-site-cosmetics');
+    const enabled = dom.cl.has(target, 'on');
+    dom.cl.toggle(target, 'on', enabled === false);
+    renderTooltips('#zublock-site-cosmetics');
+    const response = await messaging.send('popupPanel', {
+        what: 'toggleZublockSiteCosmetics',
+        hostname: popupData.pageHostname,
+        enabled,
+        tabId: popupData.tabId,
+    });
+    cachePopupData(response);
+    renderPopup();
+    reloadTab(true);
+};
+
+/******************************************************************************/
+
+const toggleZublockTwitchShield = async function() {
+    const target = qs$('#zublock-twitch-shield');
+    const enabled = dom.cl.has(target, 'on');
+    dom.cl.toggle(target, 'on', enabled === false);
+    renderTooltips('#zublock-twitch-shield');
+    const response = await messaging.send('popupPanel', {
+        what: 'toggleZublockTwitchShield',
+        enabled,
+        tabId: popupData.tabId,
+    });
+    cachePopupData(response);
+    renderPopup();
 };
 
 /******************************************************************************/
@@ -1534,8 +1632,12 @@ const getPopupData = async function(tabId, first = false) {
 
 dom.on('#switch', 'click', toggleNetFilteringSwitch);
 dom.on('#gotoZap', 'click', gotoZap);
+dom.on('#gotoZapPermanent', 'click', gotoZapPermanent);
 dom.on('#gotoPick', 'click', gotoPick);
+dom.on('#resetSiteCosmetics', 'click', resetSiteCosmetics);
 dom.on('#gotoReport', 'click', gotoReport);
+dom.on('#zublock-twitch-shield', 'click', toggleZublockTwitchShield);
+dom.on('#zublock-site-cosmetics', 'click', toggleSiteCosmetics);
 dom.on('.hnSwitch', 'click', ev => { toggleHostnameSwitch(ev); });
 dom.on('#saveRules', 'click', saveFirewallRules);
 dom.on('#revertRules', 'click', ( ) => { revertFirewallRules(); });

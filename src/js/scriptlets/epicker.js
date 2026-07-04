@@ -964,6 +964,33 @@ const filterElementAtPoint = function(mx, my, broad) {
 
 /******************************************************************************/
 
+const persistZapFilterFromElement = function(elem) {
+    if ( pickerBootArgs.persist !== true ) { return; }
+    if ( elem instanceof Element === false ) { return; }
+    if ( filtersFrom(elem) === 0 ) { return; }
+    if ( bestCandidateFilter === null ) { return; }
+    if ( bestCandidateFilter.type !== 'cosmetic' ) { return; }
+
+    const { filters, slot } = bestCandidateFilter;
+    const filter = filters[slot];
+    if ( typeof filter !== 'string' || filter.startsWith('##') === false ) {
+        return;
+    }
+
+    const hostname = self.location.hostname;
+    if ( hostname === '' ) { return; }
+
+    vAPI.messaging.send('elementPicker', {
+        what: 'createUserFilter',
+        autoComment: true,
+        filters: `${hostname}${filter}`,
+        docURL: self.location.href,
+        killCache: false,
+    });
+};
+
+/******************************************************************************/
+
 // https://www.reddit.com/r/uBlockOrigin/comments/bktxtb/scrolling_doesnt_work/emn901o
 //   Override 'fixed' position property on body element if present.
 
@@ -1017,6 +1044,7 @@ const zapElementAtPoint = function(mx, my, options) {
             doc.documentElement.style.setProperty('overflow', 'auto', 'important');
         }
     }
+    persistZapFilterFromElement(elemToRemove);
     elemToRemove.remove();
     highlightElementAtPoint(mx, my);
 };
@@ -1301,6 +1329,9 @@ const bootstrap = async ( ) => {
     const url = new URL(pickerBootArgs.pickerURL);
     if ( pickerBootArgs.zap ) {
         url.searchParams.set('zap', '1');
+    }
+    if ( pickerBootArgs.persist ) {
+        url.searchParams.set('persist', '1');
     }
     return new Promise(resolve => {
         const iframe = document.createElement('iframe');

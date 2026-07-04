@@ -57,7 +57,7 @@ import { ubolLog } from './debug.js';
 /******************************************************************************/
 
 async function getUserList() {
-    const customFilters = await getAllCustomFilters();
+    const customFilters = await getAllCustomFilters({ includeDisabled: false });
     const lines = [];
     for ( const [ hostname, selectors ] of customFilters ) {
         for ( const selector of selectors ) {

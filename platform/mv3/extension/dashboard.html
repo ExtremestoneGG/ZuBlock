@@ -24,11 +24,11 @@
 <!-- -------- -->
 <header>
     <nav id="dashboard-nav">
-        <span class="logo"><img data-i18n-title="extName" src="img/ublock.svg" alt="uBO Lite"></span><!--
+        <span class="logo"><img data-i18n-title="extName" src="img/ublock.svg" alt="ZuBlock"></span><!--
      --><button class="tabButton" type="button" data-pane="settings" data-i18n="settingsPageName" tabindex="0"></button><!--
      --><button class="tabButton" type="button" data-pane="rulesets" data-i18n="aboutFilterLists" tabindex="0"></button><!--
-     --><button class="tabButton" type="button" data-pane="filters" data-i18n="customFiltersPageName"tabindex="0"></button><!--
-     --><button class="tabButton" type="button" data-pane="develop" data-i18n="developPageName"tabindex="0"></button><!--
+     --><button class="tabButton" type="button" data-pane="filters" data-i18n="customFiltersPageName" tabindex="0"></button><!--
+     --><button class="tabButton" type="button" data-pane="develop" data-i18n="developPageName" tabindex="0"></button><!--
      --><button class="tabButton" type="button" data-pane="about" data-i18n="aboutPageName" tabindex="0"></button>
     </nav>
     <!-- -------- -->
@@ -128,6 +128,16 @@
 
 <!-- -------- -->
 <section data-pane="filters">
+    <div class="savedEditsIntro">
+        <h3 data-i18n="savedEditsTitle">_</h3>
+        <p data-i18n="savedEditsIntro">_</p>
+    </div>
+    <div class="savedEditsQuickAdd">
+        <input id="savedEditHostname" type="text" spellcheck="false" placeholder="savedEditsSitePlaceholder">
+        <input id="savedEditSelector" type="text" spellcheck="false" placeholder="savedEditsSelectorPlaceholder">
+        <button id="savedEditAdd" class="preferred iconified dontshrink" type="button" data-i18n-title="savedEditsAddTip"><span class="fa-icon">save</span><span data-i18n="savedEditsAddButton">_</span><span class="hover"></span></button>
+    </div>
+    <p id="savedEditsEmpty" class="savedEditsEmpty" data-i18n="savedEditsEmpty">_</p>
     <ul class="hostnames"></ul>
     <aside>
         <details class="importFromText"><summary data-i18n="customFiltersImportExportLabel">_</summary>
@@ -237,12 +247,12 @@
     <div class="listEntries"></div>
 </template>
 <template id="customFiltersHostname">
-    <li class="hostname" data-pretty="" data-ugly=""><div><span class="hostname" spellcheck="false" contenteditable="plaintext-only"></span><span class="copy fa-icon">files-o</span><span class="remove fa-icon">trash-o</span><span class="undo fa-icon">undo</span></div>
+    <li class="hostname" data-pretty="" data-ugly=""><div><span class="hostname" spellcheck="false" contenteditable="plaintext-only"></span><label class="savedEditEnabled" data-i18n-title="savedEditsToggleTip"><span class="input checkbox"><input type="checkbox" checked><svg viewBox="0 0 24 24"><path d="M1.73,12.91 8.1,19.28 22.79,4.59"/></svg></span></label><span class="copy fa-icon" data-i18n-title="savedEditsCopyTip">files-o</span><span class="remove fa-icon" data-i18n-title="savedEditsRemoveSiteTip">trash-o</span><span class="undo fa-icon" data-i18n-title="savedEditsUndoTip">undo</span></div>
     <ul class="selectors"></ul>
     </li>
 </template>
 <template id="customFiltersSelector">
-    <li class="selector" data-pretty="" data-ugly=""><div><span class="selector" spellcheck="false" contenteditable="plaintext-only"></span><span class="copy fa-icon">files-o</span><span class="remove fa-icon">trash-o</span><span class="undo fa-icon">undo</span></div></li>
+    <li class="selector" data-pretty="" data-ugly=""><div><span class="selector" spellcheck="false" contenteditable="plaintext-only"></span><span class="copy fa-icon" data-i18n-title="savedEditsCopyTip">files-o</span><span class="remove fa-icon" data-i18n-title="savedEditsRemoveEditTip">trash-o</span><span class="undo fa-icon" data-i18n-title="savedEditsUndoTip">undo</span></div></li>
 </template>
 <template class="io-panel">
     <span class="io-panel">

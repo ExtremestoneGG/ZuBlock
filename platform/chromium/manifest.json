@@ -1,5 +1,5 @@
 {
-  "author": "Raymond Hill & contributors",
+  "author": "Raymond Hill & contributors; ZuBlock contributors",
   "background": {
     "page": "background.html"
   },
@@ -9,7 +9,7 @@
       "32": "img/icon_32.png",
       "64": "img/icon_64.png"
     },
-    "default_title": "uBlock Origin",
+    "default_title": "ZuBlock",
     "default_popup": "popup-fenix.html"
   },
   "commands": {
@@ -90,7 +90,7 @@
   "incognito": "split",
   "manifest_version": 2,
   "minimum_chrome_version": "93.0",
-  "name": "uBlock Origin",
+  "name": "ZuBlock",
   "options_ui": {
     "page": "dashboard.html",
     "open_in_tab": true
@@ -99,6 +99,7 @@
     "alarms",
     "contextMenus",
     "privacy",
+    "proxy",
     "storage",
     "tabs",
     "unlimitedStorage",
@@ -107,7 +108,7 @@
     "webRequestBlocking",
     "<all_urls>"
   ],
-  "short_name": "uBlock₀",
+  "short_name": "ZuBlock",
   "storage": {
     "managed_schema": "managed_storage.json"
   },

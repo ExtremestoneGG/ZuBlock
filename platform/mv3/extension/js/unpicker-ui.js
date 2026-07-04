@@ -132,6 +132,7 @@ async function startUnpicker() {
     const selectors = await toolOverlay.sendMessage({
         what: 'customFiltersFromHostname',
         hostname: toolOverlay.url.hostname,
+        includeDisabled: true,
     })
     if ( selectors.length === 0 ) {
         return quitUnpicker();

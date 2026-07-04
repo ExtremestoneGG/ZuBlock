@@ -253,6 +253,10 @@ html#ublock0-epicker,
     stroke-width: 0.5px;
     fill: rgba(255,255,63,0.20);
 }
+#ublock0-epicker.persistZap svg#sea > path + path {
+    stroke: #a855f7;
+    fill: rgba(168,85,247,0.22);
+}
 #ublock0-epicker.preview svg#sea > path {
     fill: rgba(0,0,0,0.10);
 }

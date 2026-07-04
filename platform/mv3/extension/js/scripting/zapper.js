@@ -35,6 +35,87 @@ if ( ubolOverlay.file === '/zapper-ui.html' ) { return; }
 // With touch-driven devices, first highlight the element and remove only
 // when tapping again the highlighted area.
 
+function cssEscape(text) {
+    return self.CSS && typeof self.CSS.escape === 'function'
+        ? self.CSS.escape(text)
+        : text.replace(/["\\]/g, '\\$&');
+}
+
+function selectorPartFromElement(elem) {
+    const tagName = elem.localName;
+    if ( typeof elem.id === 'string' && elem.id !== '' ) {
+        const selector = `#${cssEscape(elem.id)}`;
+        try {
+            if ( document.querySelectorAll(selector).length === 1 ) {
+                return selector;
+            }
+        } catch {
+        }
+    }
+
+    let selector = tagName;
+    const preferredAttributes = [
+        'data-testid',
+        'data-test-id',
+        'data-test',
+        'data-qa',
+        'aria-label',
+        'role',
+    ];
+    for ( const attr of preferredAttributes ) {
+        const value = elem.getAttribute(attr);
+        if ( value === null || value === '' ) { continue; }
+        selector += `[${cssEscape(attr)}="${cssEscape(value)}"]`;
+        return selector;
+    }
+
+    for ( const name of elem.classList.values() ) {
+        selector += `.${cssEscape(name)}`;
+    }
+
+    return selector;
+}
+
+function selectorFromElement(elem) {
+    const parts = [];
+    let current = elem;
+    while (
+        current instanceof Element &&
+        current !== document.body &&
+        current !== document.documentElement
+    ) {
+        let part = selectorPartFromElement(current);
+        const parent = current.parentElement;
+        if ( parent instanceof Element ) {
+            let siblings;
+            try {
+                siblings = parent.querySelectorAll(`:scope > ${part}`);
+            } catch {
+            }
+            if ( siblings === undefined || siblings.length !== 1 ) {
+                let i = 1;
+                let sibling = current;
+                while ( (sibling = sibling.previousElementSibling) !== null ) {
+                    if ( sibling.localName === current.localName ) {
+                        i += 1;
+                    }
+                }
+                part = `${current.localName}:nth-of-type(${i})`;
+            }
+        }
+        parts.unshift(part);
+        const selector = parts.join(' > ');
+        try {
+            if ( document.querySelectorAll(selector).length === 1 ) {
+                return selector;
+            }
+        } catch {
+        }
+        current = parent;
+    }
+    return parts.join(' > ');
+}
+
 function zapElementAtPoint(mx, my, options) {
     if ( options.highlight ) {
         const elem = ubolOverlay.elementFromPoint(mx, my);
@@ -50,6 +131,7 @@ function zapElementAtPoint(mx, my, options) {
     }
 
     if ( elemToRemove instanceof Element === false ) { return; }
+    const selector = selectorFromElement(elemToRemove);
 
     const getStyleValue = (elem, prop) => {
         const style = window.getComputedStyle(elem);
@@ -84,6 +166,7 @@ function zapElementAtPoint(mx, my, options) {
     }
     elemToRemove.remove();
     ubolOverlay.highlightElementAtPoint(mx, my);
+    return { removed: true, selector };
 }
 
 /******************************************************************************/
@@ -115,12 +198,13 @@ function onMessage(msg) {
     case 'quitTool':
         quitZapper();
         break;
-    case 'zapElementAtPoint':
-        zapElementAtPoint(msg.mx, msg.my, msg.options);
+    case 'zapElementAtPoint': {
+        const result = zapElementAtPoint(msg.mx, msg.my, msg.options);
         if ( msg.options.highlight !== true && msg.options.stay !== true ) {
             quitZapper();
         }
-        break;
+        return result;
+    }
     default:
         break;
     }

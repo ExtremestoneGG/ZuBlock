@@ -28,29 +28,84 @@
     <!-- -------- -->
     <div id="filteringModeText"><label data-i18n="popupFilteringModeLabel">_</label><br><span>_</span><span></span></div>
     <!-- -------- -->
+    <div class="pageUnavailable">
+        <span class="fa-icon">info-circle</span>
+        <span data-i18n="popupPageToolsUnavailable">_</span>
+    </div>
+    <!-- -------- -->
     <div class="toolMenu localTools needHTTP">
         <label data-i18n="popupLocalToolsLabel"></label>
-        <span id="gotoZapper" class="tool enabled" tabindex="0">
+        <span id="gotoZapper" class="tool enabled" tabindex="0" data-i18n-title="zapperTipEnter">
             <span class="fa-icon">bolt</span>
-            <span data-i18n="zapperTipEnter">_</span>
+            <span data-i18n="popupToolZapper">_</span>
         </span>
-        <span id="gotoPicker" class="tool enabled" tabindex="0">
+        <span id="gotoPicker" class="tool enabled" tabindex="0" data-i18n-title="pickerTipEnter">
             <span class="fa-icon">eye-slash</span>
-            <span data-i18n="pickerTipEnter">_</span>
+            <span data-i18n="popupToolPicker">_</span>
         </span>
-        <span id="gotoUnpicker" class="tool" tabindex="0">
+        <span id="gotoUnpicker" class="tool" tabindex="0" data-i18n-title="unpickerTipEnter">
             <span class="fa-icon">eye-open</span>
-            <span data-i18n="unpickerTipEnter">_</span>
+            <span data-i18n="popupToolUnpicker">_</span>
         </span>
-        <span id="gotoReport" class="tool enabled" tabindex="0">
+        <span id="toggleTwitchShield" class="tool enabled" tabindex="0" data-i18n-title="popupTwitchShieldOn">
+            <span class="fa-icon">film</span>
+            <span data-i18n="popupToolTwitchShield">_</span>
+        </span>
+        <span id="togglePageTranslator" class="tool enabled" tabindex="0" data-i18n-title="popupTranslatorTipOff">
+            <span class="fa-icon">font</span>
+            <span data-i18n="popupToolTranslator">_</span>
+        </span>
+        <span id="gotoReport" class="tool enabled" tabindex="0" data-i18n-title="popupTipReport">
             <span class="fa-icon">comment-alt</span>
-            <span data-i18n="popupTipReport">_</span>
+            <span data-i18n="popupToolReport">_</span>
         </span>
     </div>
     <!-- -------- -->
+    <section id="pageTranslator" class="pageTranslator needHTTP">
+        <div class="pageTranslatorHeader">
+            <span data-i18n="popupTranslatorTitle">_</span>
+            <label id="savePageTranslations" data-i18n-title="popupTranslatorSaveTip"><span class="input checkbox"><input type="checkbox"><svg viewBox="0 0 24 24"><path d="M1.73,12.91 8.1,19.28 22.79,4.59"/></svg></span><span data-i18n="popupTranslatorSave">_</span></label>
+        </div>
+        <div class="pageTranslatorControls">
+            <label for="pageTranslatorLanguage" data-i18n="popupTranslatorLanguage">_</label>
+            <select id="pageTranslatorLanguage">
+                <option value="pt" data-i18n="popupTranslatorPortuguese">_</option>
+                <option value="en" data-i18n="popupTranslatorEnglish">_</option>
+            </select>
+        </div>
+        <p id="pageTranslatorStatus" data-i18n="popupTranslatorStatusOff">_</p>
+    </section>
+    <!-- -------- -->
+    <section id="siteEdits" class="siteEdits needHTTP">
+        <div class="siteEditsHeader">
+            <span data-i18n="popupSavedEditsTitle">_</span>
+            <label id="toggleSavedEdits" data-i18n-title="savedEditsToggleTip"><span class="input checkbox"><input type="checkbox" checked><svg viewBox="0 0 24 24"><path d="M1.73,12.91 8.1,19.28 22.79,4.59"/></svg></span><span data-i18n="popupSavedEditsApply">_</span></label>
+        </div>
+        <div class="siteEditsMeta">
+            <span id="popupSavedEditsCount">0</span>
+            <span data-i18n="popupSavedEditsCountLabel">_</span>
+        </div>
+        <ul id="popupSavedEditsList"></ul>
+        <button id="openSavedEdits" class="iconified dontshrink" type="button"><span class="fa-icon">sliders</span><span data-i18n="popupOpenSavedEdits">_</span><span class="hover"></span></button>
+    </section>
+    <!-- -------- -->
+    <section id="braveClean" class="braveClean">
+        <div class="braveCleanHeader">
+            <span data-i18n="popupBraveCleanTitle">_</span>
+            <span class="fa-icon">magic</span>
+        </div>
+        <p data-i18n="popupBraveCleanHint">_</p>
+        <div class="braveCleanActions">
+            <button class="openBraveClean" type="button" data-url="brave://settings/appearance"><span data-i18n="popupBraveCleanAppearance">_</span></button>
+            <button class="openBraveClean" type="button" data-url="brave://settings/newTab"><span data-i18n="popupBraveCleanNewTab">_</span></button>
+            <button class="openBraveClean" type="button" data-url="brave://policy"><span data-i18n="popupBraveCleanPolicy">_</span></button>
+            <button class="openBraveClean" type="button" data-url="https://support.brave.app/hc/en-us/articles/38561489788173-What-is-Brave-Origin"><span data-i18n="popupBraveCleanOrigin">_</span></button>
+        </div>
+    </section>
+    <!-- -------- -->
     <div class="toolRibbon globalTools">
-        <span id="gotoMatchedRules" class="fa-icon tool" tabindex="0" title="Show matched rules">list-alt<span class="caption">Show matched rules</span></span>
-        <span id="gotoDashboard" class="fa-icon tool enabled" tabindex="0" data-i18n-title="popupTipDashboard">cogs<span class="caption" data-i18n="popupTipDashboard"></span></span>
+        <span id="gotoMatchedRules" class="fa-icon tool" tabindex="0" data-i18n-title="popupTipMatchedRules">search<span class="caption" data-i18n="popupTipMatchedRules"></span></span>
+        <span id="gotoDashboard" class="fa-icon tool enabled" tabindex="0" data-i18n-title="popupTipDashboard">sliders<span class="caption" data-i18n="popupTipDashboard"></span></span>
     </div>
 </main>
 <aside>

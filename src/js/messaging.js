@@ -55,6 +55,10 @@ import { staticFilteringReverseLookup } from './reverselookup.js';
 import staticNetFilteringEngine from './static-net-filtering.js';
 import webRequest from './traffic.js';
 import µb from './background.js';
+import {
+    getTwitchShieldPopupData,
+    setTwitchShieldEnabled,
+} from './zublock-twitch.js';
 
 /******************************************************************************/
 
@@ -181,7 +185,13 @@ const onMessage = function(request, sender, callback) {
     case 'launchElementPicker':
         // Launched from some auxiliary pages, clear context menu coords.
         µb.epickerArgs.mouse = false;
-        µb.elementPickerExec(request.tabId, 0, request.targetURL, request.zap);
+        µb.elementPickerExec(
+            request.tabId,
+            0,
+            request.targetURL,
+            request.zap,
+            request.persist
+        );
         break;
 
     case 'loggerDisabled':
@@ -374,6 +384,7 @@ const popupDataFromTabId = function(tabId, tabTitle) {
         tabTitle,
         tooltipsDisabled: µbus.tooltipsDisabled,
         hasUnprocessedRequest: vAPI.net && vAPI.net.hasUnprocessedRequest(tabId),
+        zublockTwitchShield: getTwitchShieldPopupData(rootHostname),
     };
 
     if ( µbhs.uiPopupConfig !== 'unset' ) {
@@ -430,9 +441,15 @@ const popupDataFromTabId = function(tabId, tabTitle) {
     return r;
 };
 
+const augmentPopupData = async popupData => {
+    popupData.zublockSiteCosmetics =
+        await µb.zublockSiteCosmeticInfo(popupData.pageHostname);
+    return popupData;
+};
+
 const popupDataFromRequest = async function(request) {
     if ( request.tabId ) {
-        return popupDataFromTabId(request.tabId, '');
+        return augmentPopupData(popupDataFromTabId(request.tabId, ''));
     }
 
     // Still no target tab id? Use currently selected tab.
@@ -443,7 +460,7 @@ const popupDataFromRequest = async function(request) {
         tabId = tab.id;
         tabTitle = tab.title || '';
     }
-    return popupDataFromTabId(tabId, tabTitle);
+    return augmentPopupData(popupDataFromTabId(tabId, tabTitle));
 };
 
 const getElementCount = async function(tabId, what) {
@@ -527,6 +544,34 @@ const onMessage = function(request, sender, callback) {
 
     case 'getPopupData':
         popupDataFromRequest(request).then(popupData => {
+            callback(popupData);
+        });
+        return;
+
+    case 'resetZublockSiteCosmetics':
+        µb.zublockResetSiteCosmetics(request.hostname).then(details => {
+            const popupData = popupDataFromTabId(request.tabId, '');
+            popupData.zublockSiteCosmetics = details;
+            callback(popupData);
+        });
+        return;
+
+    case 'toggleZublockSiteCosmetics':
+        µb.zublockToggleSiteCosmetics(
+            request.hostname,
+            request.enabled
+        ).then(details => {
+            const popupData = popupDataFromTabId(request.tabId, '');
+            popupData.zublockSiteCosmetics = details;
+            callback(popupData);
+        });
+        return;
+
+    case 'toggleZublockTwitchShield':
+        setTwitchShieldEnabled(request.enabled).then(async ( ) => {
+            const popupData = popupDataFromTabId(request.tabId, '');
+            popupData.zublockSiteCosmetics =
+                await µb.zublockSiteCosmeticInfo(popupData.pageHostname);
             callback(popupData);
         });
         return;
@@ -862,6 +907,7 @@ const onMessage = function(request, sender, callback) {
             callback({
                 target: µb.epickerArgs.target,
                 mouse: µb.epickerArgs.mouse,
+                persist: µb.epickerArgs.persist,
                 zap: µb.epickerArgs.zap,
                 eprom: µb.epickerArgs.eprom,
                 pickerURL: vAPI.getURL(

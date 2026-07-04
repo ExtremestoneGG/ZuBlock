@@ -1,10 +1,10 @@
 {
   "extName": {
-    "message": "uBlock Origin Lite",
+    "message": "ZuBlock",
     "description": "extension name."
   },
   "extShortDesc": {
-    "message": "Um bloqueador de conteúdo eficiente. Bloqueia anúncios, rastreadores e muito mais, imediatamente após a instalação.",
+    "message": "Bloqueador leve do ZuBlock para navegadores Chromium modernos.",
     "description": "this will be in the Chrome web store: must be 132 characters or less"
   },
   "perRulesetStats": {
@@ -12,16 +12,64 @@
     "description": "Appears aside each filter list in the _3rd-party filters_ pane"
   },
   "dashboardName": {
-    "message": "uBO Lite — Painel",
-    "description": "English: uBO Lite — Dashboard"
+    "message": "ZuBlock - Painel",
+    "description": "English: ZuBlock - Painel"
   },
   "settingsPageName": {
     "message": "Configurações",
     "description": "appears as tab name in dashboard"
   },
   "customFiltersPageName": {
-    "message": "Filtros personalizados",
+    "message": "Edições salvas",
     "description": "appears as tab name in dashboard"
+  },
+  "savedEditsTitle": {
+    "message": "Edições salvas",
+    "description": "Heading for the saved page edits pane"
+  },
+  "savedEditsIntro": {
+    "message": "As edições salvas são aplicadas automaticamente enquanto cada site carrega. Use isso para manter partes indesejadas escondidas no WhatsApp, Facebook, Twitch ou qualquer outro site que você escolher.",
+    "description": "Short explanation for saved page edits"
+  },
+  "savedEditsSitePlaceholder": {
+    "message": "web.whatsapp.com",
+    "description": "Placeholder for the saved edits hostname field"
+  },
+  "savedEditsSelectorPlaceholder": {
+    "message": "Seletor CSS, exemplo .ad-banner",
+    "description": "Placeholder for the saved edits selector field"
+  },
+  "savedEditsAddButton": {
+    "message": "Salvar edição",
+    "description": "Button label to save a permanent page edit"
+  },
+  "savedEditsAddTip": {
+    "message": "Salvar esta edição para o ZuBlock esconder isso sempre que o site abrir",
+    "description": "Tooltip for saving a permanent page edit"
+  },
+  "savedEditsEmpty": {
+    "message": "Nenhuma edição salva ainda. Abra um site, escolha Salvar edição permanente e selecione o que deve desaparecer.",
+    "description": "Empty state for saved page edits"
+  },
+  "savedEditsCopyTip": {
+    "message": "Copiar esta edição salva",
+    "description": "Tooltip for copying a saved edit"
+  },
+  "savedEditsRemoveSiteTip": {
+    "message": "Remover todas as edições salvas deste site",
+    "description": "Tooltip for removing a whole saved edits site entry"
+  },
+  "savedEditsRemoveEditTip": {
+    "message": "Remover esta edição salva",
+    "description": "Tooltip for removing one saved edit"
+  },
+  "savedEditsUndoTip": {
+    "message": "Restaurar esta edição salva",
+    "description": "Tooltip for undoing removal of a saved edit"
+  },
+  "savedEditsToggleTip": {
+    "message": "Ligar ou desligar as edições salvas deste site sem apagar nada",
+    "description": "Tooltip for enabling or disabling saved edits for a site"
   },
   "developPageName": {
     "message": "Desenvolver",
@@ -43,13 +91,129 @@
     "message": "Neste site",
     "description": "Label in the popup panel for the local tools section"
   },
+  "popupToolZapper": {
+    "message": "Apagar agora",
+    "description": "Short visible popup label for the temporary element zapper"
+  },
+  "popupToolPicker": {
+    "message": "Salvar edi\u00e7\u00e3o",
+    "description": "Short visible popup label for permanent saved edits"
+  },
+  "popupToolUnpicker": {
+    "message": "Revisar salvos",
+    "description": "Short visible popup label for reviewing saved edits"
+  },
+  "popupToolTwitchShield": {
+    "message": "Escudo Twitch",
+    "description": "Short visible popup label for Twitch Shield"
+  },
+  "popupToolReport": {
+    "message": "Reportar",
+    "description": "Short visible popup label for the issue reporter"
+  },
+  "popupToolTranslator": {
+    "message": "Traduzir",
+    "description": "Short visible popup label for the visual page translator"
+  },
+  "popupPageToolsUnavailable": {
+    "message": "As ferramentas da página funcionam em sites normais. Páginas do navegador, como nova guia, não podem ser editadas por extensões.",
+    "description": "Notice shown in the popup when page tools are unavailable"
+  },
+  "popupTranslatorTitle": {
+    "message": "Tradu\u00e7\u00e3o visual",
+    "description": "Popup heading for page translation"
+  },
+  "popupTranslatorLanguage": {
+    "message": "Traduzir para",
+    "description": "Label for translation target language"
+  },
+  "popupTranslatorPortuguese": {
+    "message": "Portugu\u00eas",
+    "description": "Portuguese language option"
+  },
+  "popupTranslatorEnglish": {
+    "message": "Ingl\u00eas",
+    "description": "English language option"
+  },
+  "popupTranslatorSave": {
+    "message": "Salvar tradu\u00e7\u00e3o",
+    "description": "Toggle label for persistent translation cache"
+  },
+  "popupTranslatorSaveTip": {
+    "message": "Reaproveitar textos traduzidos para a mesma p\u00e1gina n\u00e3o precisar traduzir tudo de novo sempre",
+    "description": "Tooltip for saving translated text"
+  },
+  "popupTranslatorStatusOn": {
+    "message": "Ligado em sites normais. O ZuBlock traduz o texto vis\u00edvel e acompanha conte\u00fado novo.",
+    "description": "Status shown when the page translator is enabled"
+  },
+  "popupTranslatorStatusOff": {
+    "message": "Desligado por padr\u00e3o. Clique em Traduzir para ativar no texto vis\u00edvel da p\u00e1gina.",
+    "description": "Status shown when the page translator is disabled"
+  },
+  "popupTranslatorTipOn": {
+    "message": "Tradu\u00e7\u00e3o visual ligada. Clique para restaurar o texto original da p\u00e1gina.",
+    "description": "Tooltip when visual translation is on"
+  },
+  "popupTranslatorTipOff": {
+    "message": "Traduzir o texto vis\u00edvel da p\u00e1gina para o idioma escolhido.",
+    "description": "Tooltip when visual translation is off"
+  },
+  "popupSavedEditsTitle": {
+    "message": "Edições deste site",
+    "description": "Heading for saved edits in the popup"
+  },
+  "popupSavedEditsApply": {
+    "message": "Aplicar",
+    "description": "Label for saved edits toggle in the popup"
+  },
+  "popupSavedEditsCountLabel": {
+    "message": "edições salvas",
+    "description": "Short label after the saved edits count"
+  },
+  "popupSavedEditsEmpty": {
+    "message": "Nenhuma edição salva aqui ainda",
+    "description": "Empty state in the popup saved edits list"
+  },
+  "popupOpenSavedEdits": {
+    "message": "Editar lista salva",
+    "description": "Button to open the saved edits dashboard pane"
+  },
+  "popupBraveCleanTitle": {
+    "message": "Brave Clean",
+    "description": "Heading for Brave cleanup shortcuts in the popup"
+  },
+  "popupBraveCleanHint": {
+    "message": "A limpeza do navegador precisa de configurações ou políticas do Brave. O ZuBlock pode te levar até lá, mas extensões não conseguem remover botões nativos do Brave diretamente.",
+    "description": "Short explanation for Brave cleanup limits"
+  },
+  "popupBraveCleanAppearance": {
+    "message": "Aparência",
+    "description": "Shortcut to Brave appearance settings"
+  },
+  "popupBraveCleanNewTab": {
+    "message": "Nova guia",
+    "description": "Shortcut to Brave new tab settings"
+  },
+  "popupBraveCleanPolicy": {
+    "message": "Políticas",
+    "description": "Shortcut to Brave policy page"
+  },
+  "popupBraveCleanOrigin": {
+    "message": "Brave Origin",
+    "description": "Shortcut to Brave Origin information"
+  },
   "popupTipReport": {
     "message": "Reportar um problema",
     "description": "Tooltip used for the 'chat' icon in the panel"
   },
   "popupTipDashboard": {
-    "message": "Abrir painel",
+    "message": "Abrir configurações e edições salvas",
     "description": "English: Click to open the dashboard"
+  },
+  "popupTipMatchedRules": {
+    "message": "Ver o que o ZuBlock tratou nesta página",
+    "description": "Tooltip for the matched rules button"
   },
   "popupMoreButton": {
     "message": "Mais",
@@ -100,15 +264,15 @@
     "description": "Placeholder text which describes the purpose of the textarea widget"
   },
   "customFiltersImportExportLabel": {
-    "message": "Importação e exportação",
+    "message": "Importar / exportar edições avançadas",
     "description": "Text label heading the import/export area of custom filters"
   },
   "customFiltersImportTextareaPlaceholder": {
-    "message": "Cole filtros cosméticos específicos aqui para adicioná-los",
+    "message": "Cole edições salvas avançadas aqui",
     "description": "Placeholder text which describes the purpose of the textarea widget"
   },
   "userScriptsInfo": {
-    "message": "Para aplicar filtros de scriptlet ou cosméticos de listas importadas, você deve conceder ao uBO Lite a permissão para executar scripts de usuário. Abra a página de extensões do seu navegador (<code>chrome://extensions</code> no Chrome ou <code>about:addons</code> no Firefox), abra os detalhes do <b>uBO Lite</b>, e ative <b>Permitir scripts de usuário</b> (também referidos como \"scripts de terceiros não verificados\").",
+    "message": "Para aplicar filtros cosmeticos ou scriptlets de listas importadas, conceda ao ZuBlock permissao para executar scripts de usuario. Abra a pagina de extensoes do navegador (<code>chrome://extensions</code> no Chrome ou <code>about:addons</code> no Firefox), abra os detalhes do <b>ZuBlock</b> e ative <b>Permitir scripts de usuario</b>.",
     "description": "A notice to inform user that the enforcement of some filters requires permission to execute 'user scripts'"
   },
   "aboutChangelog": {
@@ -180,7 +344,7 @@
     "description": "An entry in the widget used to select the type of issue"
   },
   "supportS6Select1Option3": {
-    "message": "Detecta o uBO Lite",
+    "message": "Detecta o ZuBlock",
     "description": "An entry in the widget used to select the type of issue"
   },
   "supportS6Select1Option4": {
@@ -188,7 +352,7 @@
     "description": "An entry in the widget used to select the type of issue"
   },
   "supportS6Select1Option5": {
-    "message": "Não funciona direito quando o uBO Lite está ativado",
+    "message": "Nao funciona direito quando o ZuBlock esta ativado",
     "description": "An entry in the widget used to select the type of issue"
   },
   "supportS6Select1Option6": {
@@ -312,7 +476,7 @@
     "description": "Web page title for the strict-blocked page"
   },
   "strictblockSentence1": {
-    "message": "O uBO Lite impediu o carregamento da seguinte página:",
+    "message": "O ZuBlock impediu o carregamento da seguinte pagina:",
     "description": "Sentence used in the strict-blocked page"
   },
   "strictblockReasonSentence1": {
@@ -344,19 +508,39 @@
     "description": "A button to navigate to the blocked page"
   },
   "zapperTipEnter": {
-    "message": "Remover um elemento",
+    "message": "Remover algo temporariamente até a página recarregar",
     "description": "Tooltip for the button used to enter zapper mode"
   },
   "zapperTipQuit": {
     "message": "Sair do modo de remoção de elementos",
     "description": "Tooltip for the button used to exit zapper mode"
   },
+  "zapperSaveEdit": {
+    "message": "Salvar edição",
+    "description": "Button to save the last zapped element as a permanent edit"
+  },
+  "zapperSaveWaiting": {
+    "message": "Remova algo primeiro",
+    "description": "Status text before a zapped element can be saved"
+  },
+  "zapperSaveReady": {
+    "message": "Pronto para salvar",
+    "description": "Status text after an element was zapped"
+  },
+  "zapperSaveDone": {
+    "message": "Salvo para as próximas visitas",
+    "description": "Status text after a zapped element was saved"
+  },
+  "zapperSaveFailed": {
+    "message": "Não deu para salvar esta edição",
+    "description": "Status text when saving a zapped element fails"
+  },
   "pickerTipEnter": {
-    "message": "Criar um filtro personalizado",
+    "message": "Salvar uma edição permanente para este site",
     "description": "Label for the menu entry to create cosmetic filters"
   },
   "unpickerTipEnter": {
-    "message": "Remover um filtro personalizado",
+    "message": "Revisar ou remover edições salvas deste site",
     "description": "Label for the menu entry to delete cosmetic filters"
   },
   "developDropdownLabel": {
@@ -440,11 +624,23 @@
     "description": "Text for the button to activate preview mode"
   },
   "pickerCreate": {
-    "message": "Criar",
+    "message": "Salvar edição",
     "description": "Text for the button to create the filter"
   },
   "unpickerUsage": {
     "message": "Selecione um filtro abaixo para destacar os elementos correspondentes na página. Clique na lixeira para remover um filtro.",
     "description": "Summary description on how to use the tool to remove custom filters"
+  },
+  "popupTwitchShield": {
+    "message": "Escudo Twitch",
+    "description": "ZuBlock popup Twitch Shield text"
+  },
+  "popupTwitchShieldOn": {
+    "message": "Escudo Twitch ligado por padrao. Requisicoes de midia da Twitch passam pela regra de proxy do ZuBlock enquanto a Twitch estiver aberta.",
+    "description": "ZuBlock popup Twitch Shield text"
+  },
+  "popupTwitchShieldOff": {
+    "message": "Escudo Twitch desligado. Clique para religar a regra de proxy contra anuncios da Twitch.",
+    "description": "ZuBlock popup Twitch Shield text"
   }
 }

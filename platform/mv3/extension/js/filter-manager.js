@@ -40,6 +40,7 @@ import { ubolErr } from './debug.js';
 
 const isProcedural = a => a.startsWith('{');
 const isCSS = a => isProcedural(a) === false && isScriptlet(a) === false;
+const DISABLED_CUSTOM_FILTERS_KEY = 'zublock.disabledCustomFilters';
 
 /******************************************************************************/
 
@@ -67,11 +68,47 @@ let pendingStorageOp = Promise.resolve();
 
 /******************************************************************************/
 
-export async function customFiltersFromHostname(hostname) {
+async function disabledCustomFilterHostnames() {
+    const hostnames = await readFromStorage(DISABLED_CUSTOM_FILTERS_KEY);
+    return new Set(Array.isArray(hostnames) ? hostnames : []);
+}
+
+export async function getDisabledCustomFilters() {
+    return Array.from(await disabledCustomFilterHostnames()).sort();
+}
+
+export async function setCustomFiltersEnabled(hostname, enabled = true) {
+    if ( hostname === '' ) { return false; }
+    const hostnames = await disabledCustomFilterHostnames();
+    const wasDisabled = hostnames.has(hostname);
+    if ( enabled ) {
+        if ( wasDisabled === false ) { return false; }
+        hostnames.delete(hostname);
+    } else {
+        if ( wasDisabled ) { return false; }
+        hostnames.add(hostname);
+    }
+    const after = Array.from(hostnames).sort();
+    if ( after.length === 0 ) {
+        await removeFromStorage(DISABLED_CUSTOM_FILTERS_KEY);
+    } else {
+        await writeToStorage(DISABLED_CUSTOM_FILTERS_KEY, after);
+    }
+    return true;
+}
+
+/******************************************************************************/
+
+export async function customFiltersFromHostname(hostname, options = {}) {
+    const disabledHostnames = options.includeDisabled === true
+        ? new Set()
+        : await disabledCustomFilterHostnames();
     const promises = [];
     let hn = hostname;
     while ( hn !== '' ) {
-        promises.push(readFromStorage(`site.${hn}`));
+        if ( disabledHostnames.has(hn) === false ) {
+            promises.push(readFromStorage(`site.${hn}`));
+        }
         const pos = hn.indexOf('.');
         if ( pos === -1 ) { break; }
         hn = hn.slice(pos + 1);
@@ -90,8 +127,8 @@ export async function customFiltersFromHostname(hostname) {
 
 /******************************************************************************/
 
-export async function hasCustomFilters(hostname) {
-    const selectors = await customFiltersFromHostname(hostname);
+export async function hasCustomFilters(hostname, options = {}) {
+    const selectors = await customFiltersFromHostname(hostname, options);
     return selectors?.length ?? 0;
 }
 
@@ -104,12 +141,17 @@ async function getAllCustomFilterKeys() {
 
 /******************************************************************************/
 
-export async function getAllCustomFilters() {
+export async function getAllCustomFilters(options = {}) {
     const collect = async key => {
         const selectors = await readFromStorage(key);
         return [ key.slice(5), selectors ?? [] ];
     };
-    const keys = await getAllCustomFilterKeys();
+    const disabledHostnames = options.includeDisabled === false
+        ? await disabledCustomFilterHostnames()
+        : new Set();
+    const keys = (await getAllCustomFilterKeys()).filter(key =>
+        disabledHostnames.has(key.slice(5)) === false
+    );
     const promises = keys.map(k => collect(k));
     return Promise.all(promises);
 }
@@ -176,7 +218,7 @@ export async function injectCustomFilters(tabId, frameId, hostname) {
 /******************************************************************************/
 
 export async function registerCustomFilters(context) {
-    const customFilters = new Map(await getAllCustomFilters());
+    const customFilters = new Map(await getAllCustomFilters({ includeDisabled: false }));
     if ( customFilters.size === 0 ) { return; }
 
     const { none } = context.filteringModeDetails;
@@ -224,7 +266,8 @@ export async function addCustomFilters(hostname, toAdd) {
     }
     if ( selectors.length === countBefore ) { return false; }
     selectors.sort();
-    writeToStorage(key, selectors);
+    await writeToStorage(key, selectors);
+    await setCustomFiltersEnabled(hostname, true);
     return true;
 }
 
@@ -235,13 +278,15 @@ export async function removeAllCustomFilters(hostname) {
         const keys = await getAllCustomFilterKeys();
         if ( keys.length === 0 ) { return false; }
         for ( const key of keys ) {
-            removeFromStorage(key);
+            await removeFromStorage(key);
         }
+        await removeFromStorage(DISABLED_CUSTOM_FILTERS_KEY);
         return true;
     }
     const key = `site.${hostname}`;
     const selectors = await readFromStorage(key) || [];
-    removeFromStorage(key);
+    await removeFromStorage(key);
+    await setCustomFiltersEnabled(hostname, true);
     return selectors.length !== 0;
 }
 
@@ -270,9 +315,10 @@ async function removeCustomFiltersByKey(key, toRemove) {
     const afterCount = selectors.length;
     if ( afterCount === beforeCount ) { return false; }
     if ( afterCount !== 0 ) {
-        writeToStorage(key, selectors);
+        await writeToStorage(key, selectors);
     } else {
-        removeFromStorage(key);
+        await removeFromStorage(key);
+        await setCustomFiltersEnabled(key.slice(5), true);
     }
     return true;
 }

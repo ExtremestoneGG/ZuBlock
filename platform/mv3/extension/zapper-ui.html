@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="color-scheme" content="light dark">
-<title>uBO Lite Zapper</title>
+<title>ZuBlock Zapper</title>
 <link rel="stylesheet" href="/css/default.css">
 <link rel="stylesheet" href="/css/tool-overlay-ui.css">
 <link rel="stylesheet" href="/css/zapper-ui.css">
@@ -21,6 +21,13 @@
             <circle cx="32" cy="32" r="12" />
         </svg>
     </div>
+    <section id="zapperSave">
+        <button id="saveZap" type="button" disabled>
+            <svg viewBox="0 0 64 64"><path d="M14 10h30l6 6v38H14zM22 10v16h20V10M22 42h20"/></svg>
+            <span data-i18n="zapperSaveEdit">_</span>
+        </button>
+        <span id="zapStatus" data-i18n="zapperSaveWaiting">_</span>
+    </section>
 </aside>
 <svg id="overlay"><path d></path><path d="M0 0"></path></svg>
 

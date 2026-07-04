@@ -24,7 +24,8 @@
     --popup-gap: var(--font-size);
     --popup-gap-thin: calc(0.5 * var(--popup-gap));
     --popup-gap-extra-thin: calc(0.25 * var(--popup-gap));
-    min-width: var(--popup-min-width);
+    min-width: max(380px, var(--popup-min-width));
+    width: 420px;
 }
 :root body.loading {
     visibility: hidden;
@@ -42,6 +43,7 @@ main {
     align-self: flex-start;
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 body.busy main {
     pointer-events: none;
@@ -109,7 +111,7 @@ body[data-forbid~="dashboard"] .globalTools {
 
 #filteringModeText {
     color: var(--ink-3);
-    margin-bottom: var(--popup-gap-thin);
+    margin-bottom: var(--popup-gap);
     text-align: center;
     text-transform: lowercase;
 }
@@ -140,10 +142,11 @@ body.needReload #refresh {
 
 .toolMenu {
     border-top: 1px solid var(--surface-2);
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    gap: 0.5em;
+    grid-template-columns: 1fr 1fr;
     margin: 0.5em 0;
-    padding-top: 0.5em;
+    padding: 0.75em;
 }
 :root:not(.isHTTP) .needHTTP {
     display: none;
@@ -151,28 +154,201 @@ body.needReload #refresh {
 .toolMenu > label {
     font-size: 90%;
     color: var(--ink-2);
+    grid-column: 1 / -1;
     line-height: calc(var(--font-size) * 1.8);
-    margin-inline-start: 0.5em;
 }
 .toolMenu > .tool {
+    background-color: var(--surface-1);
+    border: 1px solid var(--surface-2);
+    border-radius: 6px;
     cursor: pointer;
     display: flex;
-    padding: 0.5em 0.5em 0.5em 0;
+    gap: 0.5em;
+    min-height: 2.65em;
+    padding: 0.55em 0.65em;
     unicode-bidi: embed;
 }
 .toolMenu > .tool:hover {
+    background-color: var(--popup-toolbar-surface-hover);
     color: var(--ink-1);
       fill: var(--ink-1);
 }
 .toolMenu > .tool:not(.enabled) {
     display: none;
 }
+.toolMenu > .tool.on {
+    color: #7c3aed;
+        fill: #7c3aed;
+}
 .toolMenu > .tool .fa-icon {
+    align-self: center;
     font-size: 1.4em;
     min-width: 1.4em;
 }
 .toolMenu > .tool [data-i18n] {
     flex-grow: 1;
+    line-height: 1.2;
+}
+
+.pageUnavailable {
+    align-items: flex-start;
+    background-color: var(--surface-1);
+    border-top: 1px solid var(--surface-2);
+    color: var(--ink-2);
+    display: flex;
+    gap: 0.7em;
+    line-height: 1.35;
+    padding: 0.9em;
+}
+:root.isHTTP .pageUnavailable {
+    display: none;
+}
+.pageUnavailable .fa-icon {
+    color: var(--accent-surface-1);
+        fill: var(--accent-surface-1);
+    font-size: 1.35em;
+    min-width: 1.35em;
+}
+
+.pageTranslator {
+    border-top: 1px solid var(--surface-2);
+    display: flex;
+    flex-direction: column;
+    gap: 0.55em;
+    padding: 0.75em;
+}
+.pageTranslatorHeader,
+.pageTranslatorControls {
+    align-items: center;
+    display: flex;
+    gap: 0.75em;
+    justify-content: space-between;
+}
+.pageTranslatorHeader > span:first-child {
+    color: var(--ink-1);
+    font-weight: 600;
+}
+#savePageTranslations {
+    align-items: center;
+    color: var(--ink-2);
+    display: flex;
+    gap: 0.35em;
+    white-space: nowrap;
+}
+.pageTranslatorControls label {
+    color: var(--ink-2);
+}
+#pageTranslatorLanguage {
+    background-color: var(--surface-1);
+    border: 1px solid var(--surface-2);
+    border-radius: 6px;
+    color: var(--ink-1);
+    min-height: 2.2em;
+    min-width: 9em;
+    padding: 0.3em 0.45em;
+}
+#pageTranslatorStatus {
+    color: var(--ink-2);
+    line-height: 1.35;
+    margin: 0;
+}
+
+.siteEdits {
+    border-top: 1px solid var(--surface-2);
+    display: flex;
+    flex-direction: column;
+    gap: 0.55em;
+    padding: 0.75em;
+}
+.siteEditsHeader {
+    align-items: center;
+    display: flex;
+    gap: 0.75em;
+    justify-content: space-between;
+}
+.siteEditsHeader > span:first-child {
+    color: var(--ink-1);
+    font-weight: 600;
+}
+#toggleSavedEdits {
+    align-items: center;
+    color: var(--ink-2);
+    display: flex;
+    gap: 0.35em;
+    white-space: nowrap;
+}
+.siteEditsMeta {
+    color: var(--ink-2);
+    display: flex;
+    gap: 0.35em;
+}
+#popupSavedEditsCount {
+    color: var(--accent-surface-1);
+    font-weight: 600;
+}
+#popupSavedEditsList {
+    display: grid;
+    gap: 0.3em;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+#popupSavedEditsList li {
+    background-color: var(--surface-1);
+    border: 1px solid var(--surface-2);
+    border-radius: 4px;
+    color: var(--ink-2);
+    overflow: hidden;
+    padding: 0.45em 0.55em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#openSavedEdits {
+    justify-content: center;
+    margin-top: 0.1em;
+}
+
+.braveClean {
+    background-color: color-mix(in srgb, var(--surface-1) 88%, #7c3aed 12%);
+    border-top: 1px solid var(--surface-2);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6em;
+    padding: 0.75em;
+}
+.braveCleanHeader {
+    align-items: center;
+    color: var(--ink-1);
+    display: flex;
+    font-weight: 600;
+    justify-content: space-between;
+}
+.braveCleanHeader .fa-icon {
+    color: #7c3aed;
+        fill: #7c3aed;
+    font-size: 1.25em;
+}
+.braveClean p {
+    color: var(--ink-2);
+    line-height: 1.35;
+    margin: 0;
+}
+.braveCleanActions {
+    display: grid;
+    gap: 0.45em;
+    grid-template-columns: 1fr 1fr;
+}
+.braveCleanActions button {
+    background-color: var(--surface-1);
+    border: 1px solid var(--surface-2);
+    border-radius: 6px;
+    color: var(--ink-1);
+    cursor: pointer;
+    min-height: 2.4em;
+    padding: 0.45em 0.55em;
+}
+.braveCleanActions button:hover {
+    background-color: var(--popup-toolbar-surface-hover);
 }
 
 .toolRibbon {

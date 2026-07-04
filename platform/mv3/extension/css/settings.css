@@ -289,6 +289,49 @@ body section[data-pane="rulesets"] .importRulesetURL input:is(:placeholder-shown
 body section[data-pane="filters"] {
     padding-inline: 0;
     }
+body section[data-pane="filters"] .savedEditsIntro,
+body section[data-pane="filters"] .savedEditsQuickAdd,
+body section[data-pane="filters"] .savedEditsEmpty {
+    margin-inline: var(--default-gap-xxsmall);
+    }
+body section[data-pane="filters"] .savedEditsIntro {
+    border-bottom: 1px solid var(--border-1);
+    padding-block: 1em;
+    }
+body section[data-pane="filters"] .savedEditsIntro h3 {
+    margin-block: 0 0.35em;
+    }
+body section[data-pane="filters"] .savedEditsIntro p,
+body section[data-pane="filters"] .savedEditsEmpty {
+    color: var(--ink-2);
+    margin-block: 0;
+    }
+body section[data-pane="filters"] .savedEditsQuickAdd {
+    align-items: stretch;
+    display: grid;
+    gap: 0.75em;
+    grid-template-columns: minmax(12em, 1fr) minmax(16em, 2fr) auto;
+    margin-block-start: 1em;
+    }
+body section[data-pane="filters"] .savedEditsQuickAdd input {
+    background-color: var(--surface-1);
+    border: 1px solid var(--border-1);
+    box-sizing: border-box;
+    color: var(--ink-1);
+    min-height: 2.5em;
+    padding-inline: 0.7em;
+    width: 100%;
+    }
+body section[data-pane="filters"] .savedEditsQuickAdd input:focus {
+    background-color: var(--surface-0);
+    border-color: var(--accent-surface-1);
+    }
+body section[data-pane="filters"] .savedEditsQuickAdd input.error {
+    border-color: var(--info3-ink);
+    }
+body section[data-pane="filters"] .savedEditsEmpty {
+    margin-block-start: 1em;
+    }
 body section[data-pane="filters"] .hostnames {
     border-bottom: 1px solid var(--border-1);
     margin-block-start: 1em;
@@ -310,6 +353,10 @@ section[data-pane="filters"] li[data-pretty] > div {
 section[data-pane="filters"] li.hostname > div {
     background-color: var(--surface-2);
     }
+section[data-pane="filters"] li.hostname.disabled > div,
+section[data-pane="filters"] li.hostname.disabled > ul {
+    opacity: 0.55;
+    }
 section[data-pane="filters"] ul ul {
     padding-block-end: 1em;
     padding-inline-start: 0.5em;
@@ -330,6 +377,11 @@ section[data-pane="filters"] li > div span.fa-icon {
     font-size: calc(var(--font-size) + 2px);
     padding-inline: 0.3em;
     top: 2px;
+    }
+section[data-pane="filters"] li > div .savedEditEnabled {
+    align-items: center;
+    display: flex;
+    padding-inline: 0.35em;
     }
 section[data-pane="filters"] li > div span.remove,
 section[data-pane="filters"] li > div span.undo {
@@ -408,6 +460,9 @@ section[data-pane="filters"] aside#sandboxEditor .cm-scroller {
     }
 
 @media (max-width: 480px) {
+    body section[data-pane="filters"] .savedEditsQuickAdd {
+        grid-template-columns: 1fr;
+    }
     #defaultFilteringMode {
         grid: 1fr 1fr 1fr / auto-flow dense;
     }

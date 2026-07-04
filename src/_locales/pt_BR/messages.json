@@ -1,14 +1,14 @@
 {
   "extName": {
-    "message": "uBlock Origin",
+    "message": "ZuBlock",
     "description": "extension name."
   },
   "extShortDesc": {
-    "message": "Finalmente, um bloqueador eficiente. Com baixo uso de CPU e memória.",
+    "message": "Um fork do uBlock com bloqueio eficiente, Twitch Shield e limpezas permanentes por site.",
     "description": "this will be in the Chrome web store: must be 132 characters or less"
   },
   "dashboardName": {
-    "message": "uBlock₀ — Painel",
+    "message": "ZuBlock — Painel",
     "description": "English: uBlock₀ — Dashboard"
   },
   "dashboardUnsavedWarning": {
@@ -48,7 +48,7 @@
     "description": "appears as tab name in dashboard"
   },
   "statsPageName": {
-    "message": "uBlock₀ — Coletor",
+    "message": "ZuBlock — Coletor",
     "description": "Title for the logger window"
   },
   "aboutPageName": {
@@ -60,7 +60,7 @@
     "description": "appears as tab name in dashboard"
   },
   "assetViewerPageName": {
-    "message": "uBlock₀ — Visualizador de recursos",
+    "message": "ZuBlock — Visualizador de recursos",
     "description": "Title for the asset viewer page"
   },
   "advancedSettingsPageName": {
@@ -68,15 +68,15 @@
     "description": "Title for the advanced settings page"
   },
   "popupPowerSwitchInfo": {
-    "message": "Clique: desativa/ativa o uBlock₀ neste site.\n\nCtrl+clique: desativa o uBlock₀ só nesta página.",
+    "message": "Clique: desativa/ativa o ZuBlock neste site.\n\nCtrl+clique: desativa o ZuBlock só nesta página.",
     "description": "English: Click: disable/enable uBlock₀ for this site.\n\nCtrl+click: disable uBlock₀ only on this page."
   },
   "popupPowerSwitchInfo1": {
-    "message": "Clique para desativar o uBlock₀ neste site.\n\nCtrl+clique para desativar o uBlock₀ só nesta página.",
+    "message": "Clique para desativar o ZuBlock neste site.\n\nCtrl+clique para desativar o ZuBlock só nesta página.",
     "description": "Message to be read by screen readers"
   },
   "popupPowerSwitchInfo2": {
-    "message": "Clique para ativar o uBlock₀ neste site.",
+    "message": "Clique para ativar o ZuBlock neste site.",
     "description": "Message to be read by screen readers"
   },
   "popupBlockedRequestPrompt": {
@@ -112,24 +112,48 @@
     "description": "For the new mobile-friendly popup design"
   },
   "popupTipDashboard": {
-    "message": "Abrir painel",
+    "message": "Abrir o painel para editar configurações, listas de filtros, sites confiáveis, backups e regras avançadas.",
     "description": "English: Click to open the dashboard"
   },
   "popupTipZapper": {
-    "message": "Entrar no modo de remoção de elementos",
+    "message": "Zapper temporário: clique em um elemento da página para remover só até recarregar.",
     "description": "Tooltip for the element-zapper icon in the popup panel"
   },
+  "popupTipZapPermanent": {
+    "message": "Zap permanente: clique em um elemento para remover agora e salvar essa limpeza neste site.",
+    "description": "Tooltip for ZuBlock's persistent zapper icon in the popup panel"
+  },
+  "popupTipResetSiteCosmetics": {
+    "message": "Resetar as limpezas permanentes salvas para este site e recarregar a página.",
+    "description": "Tooltip for ZuBlock's per-site cleanup reset button"
+  },
   "popupTipPicker": {
-    "message": "Entrar no modo de seleção de elemento",
+    "message": "Seletor de elemento: inspecione um elemento e crie uma regra editável antes de salvar.",
     "description": "English: Enter element picker mode"
   },
   "popupTipLog": {
-    "message": "Abrir o coletor",
+    "message": "Abrir o coletor para ver quais requisições, filtros e regras foram usados nesta página.",
     "description": "Tooltip used for the logger icon in the panel"
   },
   "popupTipReport": {
-    "message": "Reportar um problema com este site",
+    "message": "Abrir o ajudante de relatório para este site, com dados úteis de filtros e depuração.",
     "description": "Tooltip used for the 'chat' icon in the panel"
+  },
+  "popupTipZuTwitchShield1": {
+    "message": "Ativar o Twitch Shield. O ZuBlock usará proxy nas requisições de vídeo ao vivo da Twitch enquanto houver abas da Twitch abertas.",
+    "description": "Tooltip for disabled ZuBlock Twitch Shield switch"
+  },
+  "popupTipZuTwitchShield2": {
+    "message": "Desativar o Twitch Shield. O ZuBlock para de usar o ajudante de proxy de vídeo ao vivo da Twitch.",
+    "description": "Tooltip for enabled ZuBlock Twitch Shield switch"
+  },
+  "popupTipZuSiteFixes1": {
+    "message": "Ativar novamente as limpezas salvas para este site.",
+    "description": "Tooltip for disabled ZuBlock site cleanup switch"
+  },
+  "popupTipZuSiteFixes2": {
+    "message": "Pausar as limpezas salvas para este site sem apagar as regras.",
+    "description": "Tooltip for enabled ZuBlock site cleanup switch"
   },
   "popupTipNoPopups": {
     "message": "Alternar o bloqueio de todos os pop-ups neste site",
@@ -206,6 +230,14 @@
   "popupNoScripting_v2": {
     "message": "JavaScript",
     "description": "Caption for the no-scripting per-site switch"
+  },
+  "popupZuTwitchShield": {
+    "message": "Twitch Shield",
+    "description": "Caption for ZuBlock's Twitch ad helper switch"
+  },
+  "popupZuSiteFixes": {
+    "message": "Limpezas do site",
+    "description": "Caption for ZuBlock's saved cosmetic cleanup switch"
   },
   "popupMoreButton_v2": {
     "message": "Mais",

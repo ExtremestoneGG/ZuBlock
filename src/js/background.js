@@ -248,6 +248,7 @@ const µBlock = {  // jshint ignore:line
     epickerArgs: {
         eprom: null,
         mouse: false,
+        persist: false,
         target: '',
         zap: false,
     },
