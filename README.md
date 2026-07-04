@@ -1,3 +1,23 @@
+<h1 align="center">ZuBlock</h1>
+
+ZuBlock is an experimental GPLv3 fork of uBlock Origin 1.72.0 for Brave/Chromium
+testing. It is not the official uBlock Origin project.
+
+This alpha build focuses on:
+
+- a purple ZuBlock identity and refreshed popup surface;
+- persistent saved page edits from the element zapper flow;
+- visual page translation for Portuguese and English, off by default;
+- an experimental Twitch Shield toggle inspired by the public TTV LOL PRO proxy
+  approach;
+- a Brave Clean shortcut area for browser settings that extensions cannot change
+  directly.
+
+For test installs, use [INSTALL_ZUBLOCK.md](INSTALL_ZUBLOCK.md). The current
+ready-to-load MV3 package is also attached to the GitHub alpha release.
+
+***
+
 [![Badge Commits]][Commit Rate]
 [![Badge Issues]][Issues]
 [![Badge Localization]][Crowdin]
