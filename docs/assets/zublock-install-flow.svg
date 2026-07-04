@@ -1,0 +1,51 @@
+<svg width="1200" height="560" viewBox="0 0 1200 560" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Fluxo de instalacao do ZuBlock</title>
+  <desc id="desc">Diagrama visual com os passos: baixar release, extrair zip, abrir pagina de extensoes, ativar modo desenvolvedor, carregar pasta e testar.</desc>
+  <rect width="1200" height="560" fill="#12121B"/>
+  <text x="72" y="76" fill="#FFFFFF" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="44" font-weight="800" letter-spacing="0">Instalacao em 6 passos</text>
+  <text x="72" y="115" fill="#C4B5FD" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="22" font-weight="600" letter-spacing="0">Use a build MV3 descompactada. Ela precisa continuar na mesma pasta depois de instalada.</text>
+  <g font-family="Inter, Segoe UI, Arial, sans-serif">
+    <g transform="translate(72 164)">
+      <rect width="320" height="122" rx="8" fill="#1C1B28" stroke="#3D3658"/>
+      <circle cx="42" cy="42" r="23" fill="#7C3AED"/>
+      <text x="35" y="50" fill="#FFFFFF" font-size="24" font-weight="800">1</text>
+      <text x="82" y="45" fill="#FFFFFF" font-size="23" font-weight="800">Baixe a release</text>
+      <text x="82" y="82" fill="#CDC6EA" font-size="18">Pegue o zip ZuBlockMV3 no GitHub.</text>
+    </g>
+    <g transform="translate(440 164)">
+      <rect width="320" height="122" rx="8" fill="#1C1B28" stroke="#3D3658"/>
+      <circle cx="42" cy="42" r="23" fill="#7C3AED"/>
+      <text x="35" y="50" fill="#FFFFFF" font-size="24" font-weight="800">2</text>
+      <text x="82" y="45" fill="#FFFFFF" font-size="23" font-weight="800">Extraia o zip</text>
+      <text x="82" y="82" fill="#CDC6EA" font-size="18">Nao instale direto de dentro do zip.</text>
+    </g>
+    <g transform="translate(808 164)">
+      <rect width="320" height="122" rx="8" fill="#1C1B28" stroke="#3D3658"/>
+      <circle cx="42" cy="42" r="23" fill="#7C3AED"/>
+      <text x="35" y="50" fill="#FFFFFF" font-size="24" font-weight="800">3</text>
+      <text x="82" y="45" fill="#FFFFFF" font-size="23" font-weight="800">Abra extensoes</text>
+      <text x="82" y="82" fill="#CDC6EA" font-size="18">brave://extensions ou chrome://extensions.</text>
+    </g>
+    <g transform="translate(72 326)">
+      <rect width="320" height="122" rx="8" fill="#1C1B28" stroke="#3D3658"/>
+      <circle cx="42" cy="42" r="23" fill="#7C3AED"/>
+      <text x="35" y="50" fill="#FFFFFF" font-size="24" font-weight="800">4</text>
+      <text x="82" y="45" fill="#FFFFFF" font-size="23" font-weight="800">Modo desenvolvedor</text>
+      <text x="82" y="82" fill="#CDC6EA" font-size="18">Ative a chave no canto da pagina.</text>
+    </g>
+    <g transform="translate(440 326)">
+      <rect width="320" height="122" rx="8" fill="#1C1B28" stroke="#3D3658"/>
+      <circle cx="42" cy="42" r="23" fill="#7C3AED"/>
+      <text x="35" y="50" fill="#FFFFFF" font-size="24" font-weight="800">5</text>
+      <text x="82" y="45" fill="#FFFFFF" font-size="23" font-weight="800">Carregar sem compactar</text>
+      <text x="82" y="82" fill="#CDC6EA" font-size="18">Selecione a pasta extraida, nao o zip.</text>
+    </g>
+    <g transform="translate(808 326)">
+      <rect width="320" height="122" rx="8" fill="#1C1B28" stroke="#3D3658"/>
+      <circle cx="42" cy="42" r="23" fill="#7C3AED"/>
+      <text x="35" y="50" fill="#FFFFFF" font-size="24" font-weight="800">6</text>
+      <text x="82" y="45" fill="#FFFFFF" font-size="23" font-weight="800">Fixe e teste</text>
+      <text x="82" y="82" fill="#CDC6EA" font-size="18">Abra o menu do ZuBlock no site.</text>
+    </g>
+  </g>
+</svg>

@@ -86,6 +86,13 @@ and aria labels, preserves simple capitalization such as all-caps buttons, and
 can persist translated strings in `zublock.pageTranslator.cache.<language>` so
 repeat visits do not need to translate the same strings again.
 
+The public-facing docs were reshaped for tester onboarding: the README now leads
+with ZuBlock branding, feature summary, compatibility, release links, and visual
+assets; `INSTALL_ZUBLOCK.md` now covers browser-by-browser sideloading,
+updating, included features, Twitch Shield expectations, troubleshooting, and
+test reports. The icon set was refreshed around a purple ZuBlock shield with a
+white Z-shaped lightning mark in all extension sizes.
+
 ## Twitch Shield Reference
 
 The Twitch helper is based on the current public TTV LOL PRO approach:

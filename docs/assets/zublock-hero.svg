@@ -1,0 +1,44 @@
+<svg width="1200" height="520" viewBox="0 0 1200 520" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">ZuBlock alpha</title>
+  <desc id="desc">Banner for the ZuBlock browser extension fork with feature cards for saved edits, translation, Twitch Shield, and Brave Clean.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="520" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#101018"/>
+      <stop offset="0.52" stop-color="#1B1230"/>
+      <stop offset="1" stop-color="#101018"/>
+    </linearGradient>
+    <linearGradient id="shield" x1="428" y1="88" x2="590" y2="278" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#C084FC"/>
+      <stop offset="0.48" stop-color="#7C3AED"/>
+      <stop offset="1" stop-color="#4C1D95"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="22" stdDeviation="20" flood-color="#000000" flood-opacity="0.42"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="520" rx="0" fill="url(#bg)"/>
+  <path d="M0 422C164 360 248 455 418 395C557 346 603 219 758 201C941 179 1017 322 1200 251V520H0V422Z" fill="#2E1A59" opacity="0.48"/>
+  <path d="M917 70H1146" stroke="#7C3AED" stroke-width="2" opacity="0.45"/>
+  <path d="M80 445H355" stroke="#A78BFA" stroke-width="2" opacity="0.35"/>
+  <g filter="url(#shadow)">
+    <path d="M482 78C521 106 544 113 594 113V225C594 304 552 352 482 394C412 352 370 304 370 225V113C420 113 443 106 482 78Z" fill="url(#shield)" stroke="#EDE9FE" stroke-width="8" stroke-linejoin="round"/>
+    <path d="M519 151L445 239H494L455 326L533 219H486L519 151Z" fill="#FFFFFF"/>
+  </g>
+  <text x="650" y="148" fill="#FFFFFF" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="76" font-weight="800" letter-spacing="0">ZuBlock</text>
+  <text x="654" y="194" fill="#C4B5FD" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="0">Alpha Manifest V3 para Brave, Chrome, Edge e Opera</text>
+  <text x="654" y="238" fill="#F5F3FF" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="27" font-weight="600" letter-spacing="0">Bloqueio, edicoes salvas, traducao visual e Escudo Twitch experimental em um menu mais claro.</text>
+  <g font-family="Inter, Segoe UI, Arial, sans-serif">
+    <rect x="120" y="348" width="220" height="92" rx="8" fill="#181824" stroke="#3C365C"/>
+    <text x="142" y="386" fill="#FFFFFF" font-size="22" font-weight="800">Edicoes salvas</text>
+    <text x="142" y="418" fill="#CDC6EA" font-size="18">Apague uma vez. Reaplique sempre.</text>
+    <rect x="370" y="348" width="220" height="92" rx="8" fill="#181824" stroke="#3C365C"/>
+    <text x="392" y="386" fill="#FFFFFF" font-size="22" font-weight="800">Traducao PT/EN</text>
+    <text x="392" y="418" fill="#CDC6EA" font-size="18">Visual, opcional e reversivel.</text>
+    <rect x="620" y="348" width="220" height="92" rx="8" fill="#181824" stroke="#3C365C"/>
+    <text x="642" y="386" fill="#FFFFFF" font-size="22" font-weight="800">Escudo Twitch</text>
+    <text x="642" y="418" fill="#CDC6EA" font-size="18">Teste publico contra ads ao vivo.</text>
+    <rect x="870" y="348" width="220" height="92" rx="8" fill="#181824" stroke="#3C365C"/>
+    <text x="892" y="386" fill="#FFFFFF" font-size="22" font-weight="800">Brave Clean</text>
+    <text x="892" y="418" fill="#CDC6EA" font-size="18">Atalhos para limpar o navegador.</text>
+  </g>
+</svg>

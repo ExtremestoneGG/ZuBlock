@@ -1,44 +1,25 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   version="1.1"
-   viewBox="0 0 128 128"
-   height="128"
-   width="128">
-  <g
-     style="display:inline;opacity:1">
-    <g
-       style="fill:#7c3aed;fill-opacity:1;stroke:#ffffff;stroke-width:1.62100744;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
-       transform="matrix(0.6778654,0,0,0.56141828,-241.07537,-247.27712)" />
-    <g
-       transform="matrix(-0.6945203,0,0,0.56109687,375.02964,-247.42947)"
-       style="fill:#7c3aed;fill-opacity:1;stroke:#ffffff;stroke-width:1.60191178000000001;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;stroke-linejoin:round">
-      <path
-         d="m 447.83376,669.09921 c -80.63119,-57.03115 -80.63119,-57.03115 -80.63119,-199.60903 34.55623,0 46.07497,0 80.63119,-28.51558 m 0,228.12461 c 80.6312,-57.03115 80.6312,-57.03115 80.6312,-199.60903 -34.55623,0 -46.07497,0 -80.6312,-28.51558"
-         style="fill:#7c3aed;fill-opacity:1;fill-rule:nonzero;stroke:#ffffff;stroke-width:1.60191178;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-    </g>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">ZuBlock</title>
+  <desc id="desc">Purple shield logo with a white Z-shaped lightning mark.</desc>
+  <defs>
+    <linearGradient id="shield" x1="31" y1="15" x2="101" y2="111" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#C084FC"/>
+      <stop offset="0.48" stop-color="#7C3AED"/>
+      <stop offset="1" stop-color="#4C1D95"/>
+    </linearGradient>
+    <linearGradient id="edge" x1="23" y1="12" x2="107" y2="116" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F5F3FF"/>
+      <stop offset="1" stop-color="#DDD6FE"/>
+    </linearGradient>
+    <filter id="shadow" x="13" y="8" width="104" height="118" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000000" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+  <path d="M64 13C80.2 24.3 91.7 28.2 111 28.2V69.9C111 94.6 96.4 109.7 64 119C31.6 109.7 17 94.6 17 69.9V28.2C36.3 28.2 47.8 24.3 64 13Z" fill="#171320"/>
+  <g filter="url(#shadow)">
+    <path d="M64 19C78.2 28.9 88.2 32.3 105 32.3V69.5C105 91.9 91.9 105.4 64 114C36.1 105.4 23 91.9 23 69.5V32.3C39.8 32.3 49.8 28.9 64 19Z" fill="url(#shield)" stroke="url(#edge)" stroke-width="5" stroke-linejoin="round"/>
   </g>
-  <g
-     transform="translate(-17.872548,-17.32535)"
-     style="display:inline">
-    <ellipse
-       transform="matrix(1.3333335,0,0,1.3333334,-42.290862,-31.108461)"
-       ry="12"
-       rx="11.999999"
-       cy="81.325356"
-       cx="102.12254"
-       style="fill:none;stroke:#ffffff;stroke-width:5.99999952;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;" />
-    <g
-       style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:1.99999996999999996;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       transform="scale(1.0018026,0.99820067)">
-      <path
-         d="m 81.72523,81.471945 c 0,11.019828 -4.991003,16.028841 -15.97121,16.028841 -10.980207,0 -15.97121,-5.009013 -15.97121,-16.028841 l 0,-24.043262 7.985605,0 0,24.043262 c 0,7.012618 0.9982,8.014421 7.985605,8.014421 6.987404,0 7.985605,-1.001803 7.985605,-8.014421 l 0,-24.043262 7.985605,0 z"
-         style="fill:#ffffff;stroke:#ffffff;stroke-width:0;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;" />
-    </g>
-  </g>
+  <path d="M80.2 39L43.6 82.1H64.5L49.4 109L86 62.9H64.9L80.2 39Z" fill="#FFFFFF"/>
+  <path d="M80.2 39L43.6 82.1H64.5L49.4 109L86 62.9H64.9L80.2 39Z" fill="#FFFFFF" opacity="0.96"/>
 </svg>

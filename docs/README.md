@@ -1,3 +1,8 @@
-## uBlock Origin pages
+## ZuBlock pages
 
-HTML: <https://gorhill.github.io/uBlock/>.
+Local documentation and visual assets for the ZuBlock fork.
+
+- [Installation guide](../INSTALL_ZUBLOCK.md)
+- [Fork notes](../FORK_NOTES.md)
+- [GitHub releases](https://github.com/ExtremestoneGG/ZuBlock/releases/latest)
+- [Tests](tests/)

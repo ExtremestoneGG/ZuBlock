@@ -1,0 +1,48 @@
+<svg width="1200" height="620" viewBox="0 0 1200 620" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Mapa do menu do ZuBlock</title>
+  <desc id="desc">Mockup do menu do ZuBlock mostrando bloqueio, apagar elemento, edicoes salvas, traducao visual, Escudo Twitch e Brave Clean.</desc>
+  <rect width="1200" height="620" fill="#111118"/>
+  <g font-family="Inter, Segoe UI, Arial, sans-serif">
+    <text x="80" y="78" fill="#FFFFFF" font-size="42" font-weight="800" letter-spacing="0">O menu principal fica no icone do ZuBlock</text>
+    <text x="80" y="116" fill="#C4B5FD" font-size="22" font-weight="600" letter-spacing="0">A ideia e resolver quase tudo no popup, sem mandar o usuario para uma pagina tecnica.</text>
+    <rect x="92" y="162" width="330" height="392" rx="8" fill="#1A1A26" stroke="#4B3F6F"/>
+    <rect x="92" y="162" width="330" height="60" rx="8" fill="#27263A"/>
+    <text x="122" y="200" fill="#FFFFFF" font-size="20" font-weight="800">www.site.com</text>
+    <circle cx="257" cy="289" r="63" fill="#7C3AED"/>
+    <path d="M286 254L232 318H267L238 381L295 303H260L286 254Z" fill="#FFFFFF"/>
+    <rect x="122" y="390" width="270" height="42" rx="6" fill="#27263A"/>
+    <text x="146" y="417" fill="#FFFFFF" font-size="18" font-weight="700">Apagar agora</text>
+    <rect x="122" y="444" width="270" height="42" rx="6" fill="#27263A"/>
+    <text x="146" y="471" fill="#FFFFFF" font-size="18" font-weight="700">Salvar edicao</text>
+    <rect x="122" y="498" width="270" height="42" rx="6" fill="#27263A"/>
+    <text x="146" y="525" fill="#FFFFFF" font-size="18" font-weight="700">Traduzir / Escudo Twitch</text>
+    <g transform="translate(500 176)">
+      <rect width="250" height="96" rx="8" fill="#1D1B2C" stroke="#49396F"/>
+      <text x="24" y="38" fill="#FFFFFF" font-size="22" font-weight="800">Bloqueio comum</text>
+      <text x="24" y="70" fill="#CDC6EA" font-size="18">Listas de filtros e regras MV3.</text>
+      <path d="M-78 188L0 75" stroke="#7C3AED" stroke-width="4"/>
+    </g>
+    <g transform="translate(822 176)">
+      <rect width="270" height="96" rx="8" fill="#1D1B2C" stroke="#49396F"/>
+      <text x="24" y="38" fill="#FFFFFF" font-size="22" font-weight="800">Edicoes salvas</text>
+      <text x="24" y="70" fill="#CDC6EA" font-size="18">Remove elementos em visitas futuras.</text>
+      <path d="M-430 290L0 78" stroke="#7C3AED" stroke-width="4" opacity="0.8"/>
+    </g>
+    <g transform="translate(500 328)">
+      <rect width="250" height="96" rx="8" fill="#1D1B2C" stroke="#49396F"/>
+      <text x="24" y="38" fill="#FFFFFF" font-size="22" font-weight="800">Traducao visual</text>
+      <text x="24" y="70" fill="#CDC6EA" font-size="18">PT/EN, desligada por padrao.</text>
+      <path d="M-78 84L0 48" stroke="#7C3AED" stroke-width="4"/>
+    </g>
+    <g transform="translate(822 328)">
+      <rect width="270" height="96" rx="8" fill="#1D1B2C" stroke="#49396F"/>
+      <text x="24" y="38" fill="#FFFFFF" font-size="22" font-weight="800">Escudo Twitch</text>
+      <text x="24" y="70" fill="#CDC6EA" font-size="18">Experimental, reversivel no popup.</text>
+      <path d="M-430 96L0 48" stroke="#7C3AED" stroke-width="4" opacity="0.8"/>
+    </g>
+    <g transform="translate(500 480)">
+      <rect width="592" height="74" rx="8" fill="#1D1B2C" stroke="#49396F"/>
+      <text x="24" y="46" fill="#FFFFFF" font-size="22" font-weight="800">Brave Clean abre atalhos seguros para configuracoes do navegador</text>
+    </g>
+  </g>
+</svg>

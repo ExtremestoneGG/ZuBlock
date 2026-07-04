@@ -1,22 +1,61 @@
+<p align="center">
+  <img src="docs/assets/zublock-hero.svg" alt="ZuBlock alpha - bloqueio, edicoes salvas, traducao visual e Escudo Twitch">
+</p>
+
 <h1 align="center">ZuBlock</h1>
 
-ZuBlock is an experimental GPLv3 fork of uBlock Origin 1.72.0 for Brave/Chromium
-testing. It is not the official uBlock Origin project.
+<p align="center">
+  <strong>Fork experimental do uBlock Origin 1.72.0 para testes em navegadores Chromium.</strong><br>
+  Brave, Chrome, Edge, Opera, Opera GX e Chromium podem carregar a build MV3 descompactada.
+</p>
 
-This alpha build focuses on:
+<p align="center">
+  <a href="INSTALL_ZUBLOCK.md"><strong>Guia de instalacao</strong></a>
+  ·
+  <a href="https://github.com/ExtremestoneGG/ZuBlock/releases/latest"><strong>Baixar release alpha</strong></a>
+  ·
+  <a href="FORK_NOTES.md"><strong>Notas do fork</strong></a>
+</p>
 
-- a purple ZuBlock identity and refreshed popup surface;
-- persistent saved page edits from the element zapper flow;
-- visual page translation for Portuguese and English, off by default;
-- an experimental Twitch Shield toggle inspired by the public TTV LOL PRO proxy
-  approach;
-- a Brave Clean shortcut area for browser settings that extensions cannot change
-  directly.
+## O que vem incluso
 
-For test installs, use [INSTALL_ZUBLOCK.md](INSTALL_ZUBLOCK.md). The current
-ready-to-load MV3 package is also attached to the GitHub alpha release.
+- **Bloqueio de conteudo:** base do uBlock Origin/uBOLite, com listas e regras Manifest V3.
+- **Edicoes salvas:** apague um elemento com o modo de apagar e salve para ele sumir automaticamente em visitas futuras.
+- **Traducao visual:** traduz textos visiveis da pagina para portugues ou ingles. Vem desligada por padrao.
+- **Escudo Twitch:** tentativa experimental contra anuncios de livestream, inspirada na abordagem publica do TTV LOL PRO. Pode falhar e pode causar erro de player; o botao fica no popup para desligar rapido.
+- **Brave Clean:** atalhos e orientacao para limpar recursos do Brave que uma extensao nao pode alterar diretamente.
+- **Marca ZuBlock:** icones roxos, README proprio, tutorial publico e identidade separada do projeto oficial.
 
-***
+## Teste rapido
+
+1. Baixe o arquivo `ZuBlockMV3-*.zip` em [Releases](https://github.com/ExtremestoneGG/ZuBlock/releases/latest).
+2. Extraia o zip em uma pasta fixa, por exemplo `D:\ZuBlockMV3`.
+3. Abra `brave://extensions`, `chrome://extensions`, `edge://extensions` ou `opera://extensions`.
+4. Ative `Modo do desenvolvedor`.
+5. Clique em `Carregar sem compactacao` / `Load unpacked`.
+6. Selecione a pasta extraida, nao o zip.
+7. Fixe o icone do ZuBlock na barra e teste em sites reais.
+
+<p align="center">
+  <img src="docs/assets/zublock-install-flow.svg" alt="Instalacao do ZuBlock em seis passos">
+</p>
+
+## Importante
+
+ZuBlock **nao e o uBlock Origin oficial**. Este repositorio preserva a licenca
+GPLv3 e a atribuicao ao projeto original, mas distribui uma build modificada,
+experimental e voltada para teste publico. Para seguranca, nao copie a identidade
+da extensao oficial, nao use a chave da Chrome Web Store oficial e nao confunda
+usuarios dizendo que esta e uma versao oficial.
+
+<p align="center">
+  <img src="docs/assets/zublock-menu-map.svg" alt="Mapa do popup do ZuBlock">
+</p>
+
+<details>
+<summary>Documentacao original do uBlock Origin preservada abaixo</summary>
+
+## Upstream original
 
 [![Badge Commits]][Commit Rate]
 [![Badge Issues]][Issues]
@@ -203,3 +242,5 @@ If you ever want to contribute something, think about the people working hard to
 [Badge Edge]: https://img.shields.io/badge/dynamic/json?label=Edge&color=brightgreen&query=%24.averageRating&suffix=%2F%35&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fodfafepnkmbhccpbejgmiehpchacaeak
 [Badge Issues]: https://img.shields.io/github/issues/uBlockOrigin/uBlock-issues
 [Badge NPM]: https://img.shields.io/npm/v/@gorhill/ubo-core
+
+</details>
